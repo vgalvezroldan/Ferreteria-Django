@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ferremas</title>
+</head>
+<body>
+    <h1>Productos Disponibles</h1>
+    <ul>
+        {% for producto in productos %}
+            <li>
+                {{ producto.nombre }} - ${{ producto.precio }}
+                <a href="{% url 'agregar_al_carrito' producto.id %}">Agregar al Carrito</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
