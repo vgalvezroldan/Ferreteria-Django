@@ -18,4 +18,15 @@ def ver_carrito(request):
     items_en_carrito = CarritoProducto.objects.filter(carrito=carrito)
     return render(request, 'carrito.html', {'items': items_en_carrito})
 
+def construccion(request):
+    return render(request, 'construccion.html')
+
+def herramientas(request):
+    return render(request, 'herramientas.html')
+
+def hogar(request):
+    return render(request, 'hogar.html')
+
+def piso_y_pared(request):
+    return render(request, 'piso-y-pared.html')
 
