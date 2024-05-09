@@ -4,8 +4,8 @@ from .models import Producto, Carrito, CarritoProducto
 
 
 def index(request):
-    # productos = Producto.objects.all()
-    return render(request, 'index.html')   #, {'productos': productos}
+    productos = Producto.objects.all()
+    return render(request, 'index.html', {'productos': productos})
 
 def agregar_al_carrito(request, producto_id):
     carrito, _ = Carrito.objects.get_or_create(sesion_id=request.session.session_key or 'default')
