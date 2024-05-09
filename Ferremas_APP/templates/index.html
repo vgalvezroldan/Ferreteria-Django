@@ -3,6 +3,7 @@
 
 {% block contenido %}
 
+<!-- CARRUSEL -->
 <section class="d-flex justify-content-center mb-5" style="margin-top: 60px;">
     <div class="carousel-container">
         <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000" data-bs-duration="5000">
@@ -34,21 +35,36 @@
     </div>
 </section>
 
-<section style="margin-top: 80px;">
+<!-- PRODUCTOS DESTACADOS -->
+<section class="container d-flex justify-content-center">
+    <h1 class="text-uppercase mt-5 text-success" style="font-size: 9.6rem; font-weight: bold;">Productos Destacados</h1>
+</section>
+
+<!-- TARJETA PRODUCTO -->
+<section style="margin-top: 80px; margin-bottom: 80px;">
     <div class="container-fluid d-flex justify-content-center mb-5">
-        <div class="card border-0" style="width: 400px; height: 550px;">
+        {% for producto in productos %}
+        <div class="card border-0" style="width: 400px; height: 650px;">
             <div class="card-img-container d-flex justify-content-center align-items-center">
-                <img src="{% static 'img/taladro-makita.webp' %}" class="card-img-top" style="width: 350px; height: 350px; object-fit: cover;" alt="...">
+                <img src="{{ producto.imagen.url }}" class="card-img-top" style="width: 350px; height: 350px; object-fit: cover;" alt="...">
             </div>
             <div class="card-body mx-3 d-flex flex-column">
-              <h5 class="card-title" style="font-size: 2.4rem;">Taladro</h5>
-              <p class="card-text text-truncate">Taladro Atornillador 10Mm DF333D + Atornillador De Impacto TD110D 12V Max Con DC10SB - CLX224SAX Makita"</p>
-              <div class="d-flex justify-content-between align-items-center mt-auto">
-                  <p class="text-success" style="font-size: 3.2rem; font-weight: bold;">$159.990</p>
-                  <a href="#" class="btn btn-success btn-lg mb-3" style="font-size: 3rem;">Agregar</a>
-              </div>
+                <h5 class="card-title" style="font-size: 2.4rem;">{{ producto.nombre }}</h5>
+                <p class="card-text">{{ producto.descripcion|lower|title|truncatechars:80 }}</p><br>
+                <div class="d-flex justify-content-between">
+                    <p class="text-success" style="font-size: 2.4rem; font-weight: bold;">{{ producto.precioOferta }}</p>
+                    <p class="text-body-tertiary text-decoration-line-through ml-auto" style="font-size: 2.4rem;">{{ producto.precio }}</p>
+                </div>
+                <div class="d-flex justify-content-between">
+                    <p style="font-size: 2.4rem; color: #22b671">Stock Disponible</p>
+                    <p style="font-size: 2.4rem; color: #22b671;">{{ producto.stock }} uds.</p>
+                </div>
+                <div class="d-flex justify-content-end">
+                    <a href="#" class="btn btn-success btn-lg mb-3 px-5" style="font-size: 2rem;">Agregar</a>
+                </div>
             </div>
           </div>
+        {% endfor %}
     </div>
 </section>
 
