@@ -1,5 +1,8 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+from django.urls import path, include
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -10,3 +13,6 @@ urlpatterns = [
     path('hogar/', views.hogar, name='hogar'),
     path('piso_y_pared/', views.piso_y_pared, name='piso_y_pared'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
