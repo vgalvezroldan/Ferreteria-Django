@@ -22,38 +22,39 @@
             <p class="text-black" style="font-size: 2.4rem; font-weight: bold;">!<strong> APROVECHA</strong> - Despacho gratis en todas tus compras sobre $50.000 ¡</p>
         </div>
     </section>
-    <header class="container-fluid bg-success d-flex align-items-center justify-content-between" style="height: 180px;">
+    <header class="container-fluid bg-success d-flex align-items-center justify-content-between" style="height: 120px;">
         <div class="container-fluid">
-            <nav class="navbar navbar-expand-lg justify-content-between">
-                <a class="navbar-brand" href="#"><img src="{% static 'img/Logo-xl.png' %}" alt="Logo" height="100" class="d-inline-block align-text-top"></a>
+            <nav class="navbar navbar-expand-md justify-content-between">
+                <a class="navbar-brand" href="#"><img src="{% static 'img/Logo-xl.png' %}" alt="Logo" height="80" class="d-inline-block align-text-top"></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mx-auto">
-                        <li class="nav-item me-5 {% if request.path == '/' %}active{% endif %}">
+                        <li class="nav-item me-3 {% if request.path == '/' %}active{% endif %}">
                             <a class="nav-link {% if request.path == '/' %}text-warning{% else %}text-white{% endif %}" href="{% url 'index' %}">Inicio</a>
                         </li>
-                        <li class="nav-item me-5 {% if request.path == '/construccion/' %}active{% endif %}">
+                        <li class="nav-item me-3 {% if request.path == '/construccion/' %}active{% endif %}">
                             <a class="nav-link {% if request.path == '/construccion/' %}text-warning{% else %}text-white{% endif %}" href="{% url 'construccion' %}">Construcción</a>
                         </li>
-                        <li class="nav-item me-5 {% if request.path == '/herramientas/' %}active{% endif %}">
+                        <li class="nav-item me-3 {% if request.path == '/herramientas/' %}active{% endif %}">
                             <a class="nav-link {% if request.path == '/herramientas/' %}text-warning{% else %}text-white{% endif %}" href="{% url 'herramientas' %}">Herramientas</a>
                         </li>
-                        <li class="nav-item me-5 {% if request.path == '/hogar/' %}active{% endif %}">
+                        <li class="nav-item me-3 {% if request.path == '/hogar/' %}active{% endif %}">
                             <a class="nav-link {% if request.path == '/hogar/' %}text-warning{% else %}text-white{% endif %}" href="{% url 'hogar' %}">Hogar</a>
                         </li>
-                        <li class="nav-item me-5 {% if request.path == '/piso_y_pared/' %}active{% endif %}">
+                        <li class="nav-item me-3 {% if request.path == '/piso_y_pared/' %}active{% endif %}">
                             <a class="nav-link {% if request.path == '/piso_y_pared/' %}text-warning{% else %}text-white{% endif %}" href="{% url 'piso_y_pared' %}">Piso y Pared</a>
                         </li>
                     </ul>
                 </div>
-                <div class="d-flex justify-content-end" style="width: 400px; padding-right: 80px; padding-bottom: 10px;">
-                    <i class="bi bi-cart4" style="font-size: 3.6rem; color: white;"></i>
+                <div class="d-flex justify-content-end" style="width: 250px; padding-right: 40px;">
+                    <i class="bi bi-cart4" style="font-size: 2.5rem; color: white;"></i>
                 </div>
             </nav>
         </div>
     </header>
+    
 
     <main> 
 
