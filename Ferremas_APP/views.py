@@ -1,6 +1,5 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import Producto, Carrito, CarritoProducto
-
 
 
 def index(request):
@@ -30,3 +29,6 @@ def hogar(request):
 def piso_y_pared(request):
     return render(request, 'piso-y-pared.html')
 
+def detalle(request, producto_id):
+    producto = get_object_or_404(Producto, pk=producto_id)
+    return render(request, 'detalle-producto.html', {'producto': producto})
