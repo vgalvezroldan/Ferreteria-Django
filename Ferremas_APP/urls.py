@@ -2,7 +2,6 @@ from django.urls import path
 from . import views
 from django.conf import settings
 from django.conf.urls.static import static
-from django.urls import path, include
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -12,6 +11,7 @@ urlpatterns = [
     path('herramientas/', views.herramientas, name='herramientas'),
     path('hogar/', views.hogar, name='hogar'),
     path('piso_y_pared/', views.piso_y_pared, name='piso_y_pared'),
+    path('detalle/<int:producto_id>/', views.detalle, name='detalle'),  # Corregida la URL y el nombre
 ]
 
 if settings.DEBUG:
