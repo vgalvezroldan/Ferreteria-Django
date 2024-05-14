@@ -34,9 +34,13 @@
                 <p style="font-size: 2.4rem; color: #22b671;">Stock Disponible</p>
                 <p style="font-size: 2.4rem; color: #929292; margin-left: auto;">
                     <span style="background-color: rgb(255, 255, 255); padding: 1px 15px; border: #5f5f5f solid 1px; border-radius: 5px;">{{ producto.stock }}</span><span style="color: #22b671;"> uds.</span> 
+                    
                 </p>
             </div>
             
+            <p><button onclick="agregarAlCarrito('{{ producto.id }}')" class="btn btn-primary">Agregar al Carrito</button>
+            </p>
+
         </div>    
     </div>
 </div>

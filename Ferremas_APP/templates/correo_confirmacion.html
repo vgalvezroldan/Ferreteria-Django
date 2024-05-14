@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Confirmación de Pedido</title>
+</head>
+<body>
+    <h1>Confirmación de Pedido</h1>
+    <p>Estimado/a {{ pedido.nombre }} {{ pedido.apellidos }},</p>
+    <p>Su pedido ha sido confirmado con los siguientes detalles:</p>
+    <h2>Detalles del Pedido</h2>
+    <ul>
+        <li><strong>Número de Pedido:</strong> {{ pedido.numero_pedido }}</li>
+        <li><strong>RUT:</strong> {{ pedido.rut }}</li>
+        <li><strong>Nombre:</strong> {{ pedido.nombre }}</li>
+        <li><strong>Apellidos:</strong> {{ pedido.apellidos }}</li>
+        <li><strong>Correo Electrónico:</strong> {{ pedido.email }}</li>
+    </ul>
+    <h2>Detalles de la Transacción</h2>
+    <ul>
+        <li><strong>Token:</strong> {{ transaccion.token }}</li>
+        <li><strong>Monto:</strong> ${{ transaccion.amount }}</li>
+        <li><strong>Código de Autorización:</strong> {{ transaccion.authorization_code }}</li>
+    </ul>
+    <p>Gracias por su compra.</p>
+</body>
+</html>

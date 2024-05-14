@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<h1>Pago Exitoso</h1>
+<p>Tu pago ha sido procesado exitosamente.</p>
+<p>Detalles del pedido:</p>
+<ul>
+    <li>Número de Pedido: {{ pedido.numero_pedido }}</li>
+    <li>RUT: {{ pedido.rut }}</li>
+    <li>Nombre: {{ pedido.nombre }}</li>
+    <li>Apellidos: {{ pedido.apellidos }}</li>
+    <li>Correo Electrónico: {{ pedido.email }}</li>
+</ul>
+{% endblock %}
+

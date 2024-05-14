@@ -1,15 +1,47 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
+{% load humanize custom_filters %}
 
 {% block contenido %}
-<body>
+<div class="container mt-5">
     <h1>Carrito de Compras</h1>
-    <ul>
-        {% for item in items %}
-            <li>
-                {{ item.producto.nombre }} - Cantidad: {{ item.cantidad }} - Precio: ${{ item.producto.precio }}
-            </li>
-        {% endfor %}
-    </ul>
-</body>
+    <div class="mb-4">
+        <a href="{% url 'formulario_datos' %}" class="btn btn-secondary">Modificar datos Cliente</a>
+    </div>
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">Imagen</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Descripción</th>
+                <th scope="col">Detalle Completo</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Precio Unitario</th>
+                <th scope="col">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for producto in productos %}
+            <tr>
+                <td><img src="{{ producto.imagen }}" alt="{{ producto.nombre }}" class="img-fluid" width="50"></td>
+                <td>{{ producto.nombre }}</td>
+                <td>{{ producto.descripcion }}</td>
+                <td>{{ producto.detalleCompleto }}</td>
+                <td>{{ producto.cantidad }}</td>
+                <td>${{ producto.precio|floatformat:0|intcomma|replace_comma }}</td>
+                <td>${{ producto.total|floatformat:0|intcomma|replace_comma }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-end">
+        <p>Subtotal: ${{ total|floatformat:0|intcomma|replace_comma }}</p>
+        <p>IVA (19%): ${{ iva|floatformat:0|intcomma|replace_comma }}</p>
+        <h4>Total: ${{ total_con_iva|floatformat:0|intcomma|replace_comma }}</h4>
+        <form action="{% url 'iniciar_pago' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="total_con_iva" value="{{ total_con_iva|floatformat:0 }}">
+            <button type="submit" class="btn btn-primary">Pagar</button>
+        </form>
+    </div>
+</div>
 {% endblock %}
-</html>

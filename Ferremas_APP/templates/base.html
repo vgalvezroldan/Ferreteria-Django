@@ -1,78 +1,267 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Link Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <!-- Link Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Slab&display=swap" rel="stylesheet">
-    <!-- CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <title>Ferretería - Ferremas</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Link Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <!-- Link Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Roboto+Slab&display=swap" rel="stylesheet" />
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+  <!--Título -->
+  <title>Ferretería - Ferremas</title>
 </head>
 
+<!-- Modal Carrito -->
+<div class="modal fade" id="carritoModal" tabindex="-1" aria-labelledby="carritoModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="carritoModalLabel">Carrito de Compras</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          Continuar Comprando
+        </button>
+        <button type="button" class="btn btn-primary">
+          Proceder al Pago
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Fin Modal Carrito -->
+
 <body>
-    <section>
-        <div class="container-fluid d-flex justify-content-center bg-warning" style="height: 40px;">
-            <p class="text-black" style="font-size: 2.4rem; font-weight: bold;">!<strong> APROVECHA</strong> - Despacho gratis en todas tus compras sobre $50.000 ¡</p>
+  <section>
+    <div class="container-fluid d-flex justify-content-center bg-warning" style="height: 40px">
+      <p class="text-black" style="font-size: 2.4rem; font-weight: bold">
+        !<strong> APROVECHA</strong> - Despacho gratis en todas tus compras
+        sobre $50.000 ¡
+      </p>
+    </div>
+  </section>
+  <header class="container-fluid bg-success d-flex align-items-center justify-content-between"
+    style="height: 120px; padding-right: 60px">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-md justify-content-between">
+        <a class="navbar-brand" href="#"><img src="{% static 'img/Logo-xl.png' %}" alt="Logo" height="80"
+            class="d-inline-block align-text-top" /></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav mx-auto">
+            <li class="nav-item me-3 {% if request.path == '/' %}active{% endif %}">
+              <a class="nav-link {% if request.path == '/' %}text-warning{% else %}text-white{% endif %}"
+                href="{% url 'index' %}">Inicio</a>
+            </li>
+            <li class="nav-item me-3 {% if request.path == '/construccion/' %}active{% endif %}">
+              <a class="nav-link {% if request.path == '/construccion/' %}text-warning{% else %}text-white{% endif %}"
+                href="{% url 'construccion' %}">Construcción</a>
+            </li>
+            <li class="nav-item me-3 {% if request.path == '/herramientas/' %}active{% endif %}">
+              <a class="nav-link {% if request.path == '/herramientas/' %}text-warning{% else %}text-white{% endif %}"
+                href="{% url 'herramientas' %}">Herramientas</a>
+            </li>
+            <li class="nav-item me-3 {% if request.path == '/hogar/' %}active{% endif %}">
+              <a class="nav-link {% if request.path == '/hogar/' %}text-warning{% else %}text-white{% endif %}"
+                href="{% url 'hogar' %}">Hogar</a>
+            </li>
+            <li class="nav-item me-3 {% if request.path == '/piso_y_pared/' %}active{% endif %}">
+              <a class="nav-link {% if request.path == '/piso_y_pared/' %}text-warning{% else %}text-white{% endif %}"
+                href="{% url 'piso_y_pared' %}">Piso y Pared</a>
+            </li>
+          </ul>
         </div>
-    </section>
-    <header class="container-fluid bg-success d-flex align-items-center justify-content-between" style="height: 120px; padding-right: 60px;">
-        <div class="container-fluid">
-            <nav class="navbar navbar-expand-md justify-content-between">
-                <a class="navbar-brand" href="#"><img src="{% static 'img/Logo-xl.png' %}" alt="Logo" height="80" class="d-inline-block align-text-top"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav mx-auto">
-                        <li class="nav-item me-3 {% if request.path == '/' %}active{% endif %}">
-                            <a class="nav-link {% if request.path == '/' %}text-warning{% else %}text-white{% endif %}" href="{% url 'index' %}">Inicio</a>
-                        </li>
-                        <li class="nav-item me-3 {% if request.path == '/construccion/' %}active{% endif %}">
-                            <a class="nav-link {% if request.path == '/construccion/' %}text-warning{% else %}text-white{% endif %}" href="{% url 'construccion' %}">Construcción</a>
-                        </li>
-                        <li class="nav-item me-3 {% if request.path == '/herramientas/' %}active{% endif %}">
-                            <a class="nav-link {% if request.path == '/herramientas/' %}text-warning{% else %}text-white{% endif %}" href="{% url 'herramientas' %}">Herramientas</a>
-                        </li>
-                        <li class="nav-item me-3 {% if request.path == '/hogar/' %}active{% endif %}">
-                            <a class="nav-link {% if request.path == '/hogar/' %}text-warning{% else %}text-white{% endif %}" href="{% url 'hogar' %}">Hogar</a>
-                        </li>
-                        <li class="nav-item me-3 {% if request.path == '/piso_y_pared/' %}active{% endif %}">
-                            <a class="nav-link {% if request.path == '/piso_y_pared/' %}text-warning{% else %}text-white{% endif %}" href="{% url 'piso_y_pared' %}">Piso y Pared</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="d-flex justify-content-end" style="width: 250px; padding-right: 40px;">
-                    <i class="bi bi-cart4" style="font-size: 2.5rem; color: white;"></i>
-                </div>
-            </nav>
+        <!-- Carrito -->
+        <div class="cart-icon-container">
+          <button id="icono-carrito" class="btn" data-bs-toggle="modal" data-bs-target="#carritoModal">
+            <i class="fas fa-shopping-cart"></i> Carrito
+          </button>
         </div>
-    </header>
+      </nav>
+    </div>
+  </header>
+
+  <main>{% block contenido %} {% endblock %}</main>
+
+  <footer class="container-fluid bg-success d-flex align-items-center">
+    <div class="container align-items-center">
+      <a href="#"><img src="{% static 'img/Logo-xs.png' %}" alt="Logo" height="100px"
+          class="d-inline-block align-text-top" /></a>
+    </div>
+  </footer>
+
+  <!-- Script de Bootstrap -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"></script>
+
     
+  <!-- Función para agregar al Carrito -->
+  <script>
+    function agregarAlCarrito(productoId) {
+      fetch(`/agregar_al_carrito/${productoId}/`, {
+        method: "POST", // Método HTTP POST
+        headers: {
+          "Content-Type": "application/json", // Tipo de contenido JSON 
+          "X-CSRFToken": getCookie("csrftoken"),  
+        },
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok"); // Lanza un error por consola si la respuesta no es correcta
+          }
+          return response.json();
+        })
+        .then((data) => {
+          alert(data.mensaje); // Muestra un mensaje de confirmación o error
+        })
+        .catch((error) =>
+          console.error("Error al agregar el producto al carrito:", error) 
+        );
+    }
+    // Función para obtener el token CSRF
+    function getCookie(name) {
+      let cookieValue = null;
+      if (document.cookie && document.cookie !== "") {
+        const cookies = document.cookie.split(";");
+        for (let i = 0; i < cookies.length; i++) {
+          const cookie = cookies[i].trim();
+          if (cookie.substring(0, name.length + 1) === name + "=") {
+            cookieValue = decodeURIComponent(
+              cookie.substring(name.length + 1)
+            );
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+  </script>
+ 
+  <script>
+    // Función para cargar el carrito
+    document.addEventListener("DOMContentLoaded", function () { // Evento que se dispara al cargar la página
+      var carritoModal = document.getElementById("carritoModal"); // Obtener el modal
+      carritoModal.addEventListener("show.bs.modal", function () { // Evento que se dispara al mostrar el modal
+        cargarCarrito();
+      });
+    });
+    function cargarCarrito() {
+      fetch("/ver_carrito/") // Realizar una petición GET a la URL /ver_carrito/
+        .then(response => response.json()) // Convertir la respuesta a JSON
+        .then(data => {
+          const modalBody = document.querySelector("#carritoModal .modal-body"); // Obtener el cuerpo del modal
+          modalBody.innerHTML = ""; // Limpiar el contenido del modal
+          if (data.productos && data.productos.length > 0) { // Si hay productos en el carrito
+            data.productos.forEach(producto => { // Recorrer los productos
+              const productoDiv = document.createElement("div"); // Crear un elemento div
+              productoDiv.innerHTML = `<h5>${producto.nombre}</h5><p>Precio unitario: $${producto.precio}</p>`; // Agregar el nombre y el precio del producto al div
+              const cantidadInput = document.createElement("input"); // Crear un input para la cantidad
+              cantidadInput.type = "number"; 
+              cantidadInput.value = producto.cantidad; // Establecer la cantidad del producto
+              cantidadInput.min = "1";
+              cantidadInput.max = producto.stock;
+              cantidadInput.addEventListener("change", () => {
+                actualizarCantidad(producto.id, cantidadInput.value);
+              });
+              const eliminarBtn = document.createElement("button"); // Crear un botón para eliminar el producto
+              eliminarBtn.textContent = "Eliminar"; // Establecer el texto del botón
+              eliminarBtn.addEventListener("click", () => eliminarProducto(producto.id)); // Agregar un evento click al botón
+              productoDiv.appendChild(cantidadInput); // Agregar el input al div
+              productoDiv.appendChild(eliminarBtn); // Agregar el botón al div
+              modalBody.appendChild(productoDiv); // Agregar el div al cuerpo del modal
+            });
+            const totalElement = document.createElement("p"); // Crear un elemento p
+            totalElement.id = "totalCarrito"; // Establecer el id del elemento
+            totalElement.textContent = `Total: $${data.total.toFixed(2)}`; // Establecer el texto del elemento
+            modalBody.appendChild(totalElement); // Agregar el elemento al cuerpo del modal
+          } else {
+            modalBody.innerHTML = "<p>El carrito está vacío.</p>"; // Mostrar un mensaje si el carrito está vacío
+          }
+        })
+        .catch(error => console.error("Error al cargar el carrito:", error)); // Mostrar un mensaje de error 
+    }
+    // Función para actualizar la cantidad del producto
+    function actualizarCantidad(productoId, cantidad) {
+      fetch(`/actualizar_carrito/${productoId}/`, { // Realizar una petición POST a la URL /actualizar_carrito/
+        method: "POST", // Método HTTP POST
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"), 
+        },
+        body: JSON.stringify({ cantidad: parseInt(cantidad) })  // Convertir la cantidad a entero y enviarla en el cuerpo de la petición
+      })
+        .then(response => { // Convertir la respuesta a JSON
+          console.log('Respuesta del servidor:', response); 
+          if (!response.ok) {
+            return response.json().then(errorData => {
+              throw new Error(errorData.mensaje);
+            });
+          }
+          return response.json();
+        })
+        .then(data => {
+          console.log('Datos recibidos:', data);
+          // Actualizar el total del carrito
+          const totalElement = document.getElementById("totalCarrito"); // Obtener el elemento con el id totalCarrito
+          if (totalElement) { // Si el elemento existe
+            totalElement.textContent = `Total: $${data.totalCarrito.toFixed(2)}`; // Actualizar el texto del elemento
+          }
+        })
+        .catch(error => console.error("Error al actualizar la cantidad del producto:", error));
+    }
 
-    <main> 
 
-        {% block contenido %}
+    // Función para eliminar un producto del carrito
+    function eliminarProducto(productoId) { // Recibe el id del producto a eliminar
+      fetch(`/eliminar_del_carrito/${productoId}/`, { // Realizar una petición POST a la URL /eliminar_del_carrito/
+        method: "POST", // Método HTTP POST
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRFToken": getCookie("csrftoken"),
+        },
+      })
 
-        {% endblock %}
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok.');
+          }
+          return response.json();
+        })
+        .then((data) => {
+          alert(data.mensaje);
+          cargarCarrito(); // Recargar carrito para reflejar el producto eliminado
+        })
+        .catch((error) =>
+          console.error("Error al eliminar el producto del carrito:", error)
+        );
+    }
+    // Función para obtener el token CSRF
+    document.addEventListener("DOMContentLoaded", function () { // Evento que se dispara al cargar la página
+      var carritoModal = document.getElementById("carritoModal"); // Obtener el modal
+      carritoModal.addEventListener("show.bs.modal", function () { // Evento que se dispara al mostrar el modal
+        cargarCarrito(); // Cargar el carrito
+      });
+      var procederAlPagoBtn = document.querySelector("#carritoModal .btn-primary"); // Obtener el botón de proceder al pago
+      procederAlPagoBtn.addEventListener("click", function () { // Agregar un evento click al botón
+        window.location.href = "/carrito/"; // Redirigir a la página de carrito
+      });
+    });
 
-    </main>
-
-    <footer class="container-fluid bg-success d-flex align-items-center">
-        <div class="container align-items-center">
-            <a href="#"><img src="{% static 'img/Logo-xs.png' %}" alt="Logo" height="100px" class="d-inline-block align-text-top"></a>
-        </div>
-    </footer>
-
-    <!-- Script de Bootstrap -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-
+  </script>
 </body>
 </html>
- 

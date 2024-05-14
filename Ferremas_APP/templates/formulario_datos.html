@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<div class="container mt-5">
+    <h1>Datos del Cliente</h1>
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="id_tipo_entrega" class="form-label">Tipo de Entrega</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="tipo_entrega" id="tipo_entrega_rt" value="RT" checked>
+                <label class="form-check-label" for="tipo_entrega_rt">
+                    Retiro en Tienda
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="tipo_entrega" id="tipo_entrega_dd" value="DD" disabled>
+                <label class="form-check-label" for="tipo_entrega_dd">
+                    Despacho a Domicilio (Próximamente)
+                </label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="id_rut" class="form-label">RUT</label>
+            {{ form.rut }}
+        </div>
+        <div class="mb-3">
+            <label for="id_nombre" class="form-label">Nombre</label>
+            {{ form.nombre }}
+        </div>
+        <div class="mb-3">
+            <label for="id_apellidos" class="form-label">Apellidos</label>
+            {{ form.apellidos }}
+        </div>
+        <div class="mb-3">
+            <label for="id_email" class="form-label">Correo Electrónico</label>
+            {{ form.email }}
+        </div>
+        <button type="submit" class="btn btn-primary">Continuar</button>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const rutInput = document.getElementById('id_rut');
+    rutInput.addEventListener('input', formatRUT);
+    
+    function formatRUT() {
+        let value = rutInput.value.replace(/\./g, '').replace(/-/g, '');
+        if (value.length > 1) {
+            value = value.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + value.slice(-1);
+        }
+        rutInput.value = value;
+    }
+});
+</script>
+{% endblock %}

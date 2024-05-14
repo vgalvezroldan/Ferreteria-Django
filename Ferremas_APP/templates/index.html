@@ -4,71 +4,88 @@
 
 {% block contenido %}
 
-<!-- CARRUSEL --> 
+<!-- CARRUSEL -->
 <section class="d-flex justify-content-center mb-5" style="margin-top: 80px;">
   <div class="carousel-container" style="max-width: 1000px;">
-      <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
-          <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-          </div>
-          <div class="carousel-inner">
-            <div class="carousel-item active">
-              <img src="{% static 'img/webinar.webp' %}" class="d-block img-fluid" style="height: 450px;" alt="...">
-            </div>
-            <div class="carousel-item">
-              <img src="{% static 'img/oferta-construccion.webp' %}" class="d-block img-fluid" style="height: 450px;" alt="...">
-            </div>
-            <div class="carousel-item">
-              <img src="{% static 'img/imperdibles-descuentos.webp' %}" class="d-block img-fluid" style="height: 450px;" alt="...">
-            </div>
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+          aria-current="true" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+          aria-label="Slide 2"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+          aria-label="Slide 3"></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="{% static 'img/webinar.webp' %}" class="d-block img-fluid" style="height: 450px;" alt="...">
         </div>
+        <div class="carousel-item">
+          <img src="{% static 'img/oferta-construccion.webp' %}" class="d-block img-fluid" style="height: 450px;"
+            alt="...">
+        </div>
+        <div class="carousel-item">
+          <img src="{% static 'img/imperdibles-descuentos.webp' %}" class="d-block img-fluid" style="height: 450px;"
+            alt="...">
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
   </div>
 </section>
+<!-- FIN CARRUSEL -->
 
 <!-- PRODUCTOS DESTACADOS -->
 <section class="container d-flex justify-content-center">
-  <h1 class="text-uppercase mt-5 text-success text-center display-1 display-lg-1" style="font-weight: bold;">Productos Destacados</h1>
+  <h1 class="text-uppercase mt-5 text-success text-center display-1 display-lg-1" style="font-weight: bold;">Productos
+    Destacados</h1>
 </section>
+<!-- FIN PRODUCTOS DESTACADOS -->
 
 <!-- TARJETA PRODUCTO -->
 <section style="margin-top: 80px; margin-bottom: 80px;">
-    <div class="container-fluid d-flex justify-content-center mb-5">
-        <div class="row mx-auto">
-            {% for producto in productos %}
-                <div class="card border-0 mx-4  mb-5" style="width: 400px; height: 675px; background-color: rgb(240, 240, 240); padding-top: 27px; border-radius: 10px;">
-                    <div class="card-img-container d-flex justify-content-center align-items-center">
-                        <img src="{{ producto.imagen.url }}" class="card-img-top" style="width: 350px; height: 350px; object-fit: cover; border-radius: 10PX;" alt="...">
-                    </div>
-                    <div class="card-body mx-4 d-flex flex-column">
-                        <h5 class="card-title mt-3" style="font-size: 2.4rem;">{{ producto.nombre }}</h5>
-                        <p class="card-text">{{ producto.descripcion|lower|title|truncatechars:80 }}</p>
-                        <div class="d-flex justify-content-between">
-                            <p class="text-success" style="font-size: 2.4rem; font-weight: bold;">{{ producto.precioOferta }}</p>
-                            <p class="text-body-tertiary text-decoration-line-through ml-auto" style="font-size: 2.4rem;">{{ producto.precio }}</p>
-                        </div>
-                        <div class="d-flex justify-content-between">
-                            <p style="font-size: 2.4rem; color: #22b671">Stock Disponible</p>
-                            <p style="font-size: 2.4rem; color: #22b671;">{{ producto.stock }} uds.</p>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <a href="{% url 'detalle' producto.id %}" class="btn btn-success btn-lg mb-3 px-5" style="font-size: 2rem;">Ver más</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+  <div class="container-fluid d-flex justify-content-center mb-5">
+    <div class="row mx-auto">
+      {% for producto in productos %}
+      <div class="card border-0 mx-4  mb-5"
+        style="width: 400px; height: 675px; background-color: rgb(240, 240, 240); padding-top: 27px; border-radius: 10px;">
+        <div class="card-img-container d-flex justify-content-center align-items-center">
+          <img src="{{ producto.imagen.url }}" class="card-img-top"
+            style="width: 350px; height: 350px; object-fit: cover; border-radius: 10PX;" alt="...">
         </div>
+        <div class="card-body mx-4 d-flex flex-column">
+          <h5 class="card-title mt-3" style="font-size: 2.4rem;">{{ producto.nombre }}</h5>
+          <p class="card-text">{{ producto.descripcion|lower|title|truncatechars:80 }}</p>
+          <div class="d-flex justify-content-between">
+            <p class="text-success" style="font-size: 2.4rem; font-weight: bold;">{{ producto.precioOferta }}</p>
+            <p class="text-body-tertiary text-decoration-line-through ml-auto" style="font-size: 2.4rem;">{{ producto.precio }}</p>
+          </div>
+          <div class="d-flex justify-content-between">
+            <p style="font-size: 2.4rem; color: #22b671">Stock Disponible</p>
+            <p style="font-size: 2.4rem; color: #22b671;">{{ producto.stock }} uds.</p>
+          </div>
+          <div class="d-flex justify-content-end">
+            <a href="{% url 'detalle' producto.id %}" class="btn btn-success btn-lg mb-3 px-5"
+              style="font-size: 2rem;">Ver más</a>
+            <button onclick="agregarAlCarrito('{{ producto.id }}')" class="btn btn-primary">Agregar al Carrito</button>
+          </div>
+        </div>
+      </div>
     </div>
+    {% endfor %}
+  </div>
+  </div>
 </section>
 
-{% endblock %}p
+
+
+{% endblock %}

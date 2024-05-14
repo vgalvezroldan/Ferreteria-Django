@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block contenido %}
+<h1>Pago Fallido</h1>
+<p>Hubo un problema al procesar tu pago. Por favor, intenta nuevamente.</p>
+<p>Detalles del error:</p>
+<ul>
+    <li>Mensaje: {{ mensaje }}</li>
+</ul>
+{% endblock %}
