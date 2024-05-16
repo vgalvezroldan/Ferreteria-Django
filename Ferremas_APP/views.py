@@ -12,6 +12,9 @@ from transbank.error.transbank_error import TransbankError
 import random
 from .forms import PedidoForm
 from .utils import enviar_correo_confirmacion
+import bcchapi
+from datetime import datetime, timedelta
+from .utils import obtener_tipo_cambio, SERIES_CODIGOS
 
 def index(request):
     productos = Producto.objects.all()
@@ -103,9 +106,6 @@ def hogar(request):
 def piso_y_pared(request):
     return render(request, 'piso-y-pared.html')
 
-def detalle(request, producto_id):
-    producto = get_object_or_404(Producto, pk=producto_id)
-    return render(request, 'detalle-producto.html', {'producto': producto})
 
 def formulario_datos(request): # Vista para el formulario de datos del pedido
     pedido_id = request.session.get("pedido_id") # Se obtiene el id del pedido de la sesión
@@ -247,3 +247,33 @@ def pago_fallido(request):
     request.session.pop('carrito_id', None)
     request.session.pop('pedido_id', None)
     return render(request, 'pago_fallido.html', {'mensaje': 'Hubo un problema con el pago. Por favor, inténtelo de nuevo.'})
+
+    
+def detalle(request, producto_id):
+    producto = get_object_or_404(Producto, pk=producto_id)
+    
+    if request.method == 'POST':
+        moneda = request.POST.get('moneda')
+    else:
+        moneda = 'CLP'
+
+    print(f"Moneda seleccionada: {moneda}")
+    serie_codigo = SERIES_CODIGOS.get(moneda)
+    tipo_cambio = obtener_tipo_cambio(serie_codigo)
+
+    print(f"Tipo de cambio para {moneda}: {tipo_cambio}")
+
+    if tipo_cambio != Decimal('1'):
+        precio_convertido = producto.precio / tipo_cambio
+    else:
+        precio_convertido = producto.precio
+
+    print(f"Precio convertido: {precio_convertido}")
+
+    context = {
+        'producto': producto,
+        'moneda': moneda,
+        'precio_convertido': precio_convertido,
+        'tipo_cambio': tipo_cambio
+    }
+    return render(request, 'detalle-producto.html', context)

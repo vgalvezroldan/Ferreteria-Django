@@ -21,6 +21,7 @@ class Producto(models.Model):
     precio = models.DecimalField(max_digits=8, decimal_places=2)
     stock = models.IntegerField()
     imagen = models.ImageField(upload_to='productos', null=True, blank=True)
+    
 
     def __str__(self):
         return self.nombre

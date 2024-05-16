@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-
 {% block contenido %}
-
 <!-- DETALLE DE PRODUCTO -->
 <div class="container" style="margin-top: 120px;">
     <div class="card-img-container d-flex justify-content-between">
-        <img src="{{ producto.imagen.url }}" class="card-img-top img-thumbnail" style="width: 500px; height: 500px; object-fit: cover; border-radius: 10PX;" alt="...">
+        <img src="{{ producto.imagen.url }}" class="card-img-top img-thumbnail" style="width: 500px; height: 500px; object-fit: cover; border-radius: 10px;" alt="...">
         <div class="container d-flex flex-column align-items-start" style="width: 500px;">
             <h1 class="mb-5" style="font-size: 3.6rem; font-weight: bold; text-transform: uppercase;">{{ producto.nombre }}</h1>
             <p class="mb-5" style="font-size: 2.4rem; font-weight: bold; padding-right: 20rem;">{{ producto.descripcion|lower|title }}</p>
@@ -34,15 +32,23 @@
                 <p style="font-size: 2.4rem; color: #22b671;">Stock Disponible</p>
                 <p style="font-size: 2.4rem; color: #929292; margin-left: auto;">
                     <span style="background-color: rgb(255, 255, 255); padding: 1px 15px; border: #5f5f5f solid 1px; border-radius: 5px;">{{ producto.stock }}</span><span style="color: #22b671;"> uds.</span> 
-                    
                 </p>
             </div>
-            
             <p><button onclick="agregarAlCarrito('{{ producto.id }}')" class="btn btn-primary">Agregar al Carrito</button>
-            </p>
-
+                <form method="post" action="" class="form-inline my-2">
+                    {% csrf_token %}
+                    <label for="moneda" class="mr-2">Seleccione la Moneda:</label>
+                    <select name="moneda" id="moneda" class="form-control mr-2" onchange="this.form.submit()">
+                        <option value="CLP" {% if moneda == 'CLP' %}selected{% endif %}>CLP</option>
+                        <option value="USD" {% if moneda == 'USD' %}selected{% endif %}>USD</option>
+                        <option value="ARS" {% if moneda == 'ARS' %}selected{% endif %}>ARS</option>
+                    </select>
+                </form>
+                <p>Precio en {{ moneda }}: ${{ precio_convertido|floatformat:2 }}</p>
+                {% if tipo_cambio != 1 %}
+                    <p>Tipo de Cambio: ${{ tipo_cambio|floatformat:2 }} CLP/{{ moneda }}</p>
+                {% endif %}
         </div>    
     </div>
 </div>
-
 {% endblock %}
