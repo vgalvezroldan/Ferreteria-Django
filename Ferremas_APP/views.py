@@ -11,10 +11,8 @@ from django.conf import settings
 from transbank.error.transbank_error import TransbankError
 import random
 from .forms import PedidoForm
-from .utils import enviar_correo_confirmacion
-import bcchapi
-from datetime import datetime, timedelta
-from .utils import obtener_tipo_cambio, SERIES_CODIGOS
+from .utils import enviar_correo_confirmacion, obtener_tipo_cambio, SERIES_CODIGOS
+
 
 def index(request):
     productos = Producto.objects.all()
@@ -50,10 +48,10 @@ def ver_carrito(request): # Vista para ver el contenido del carrito
         carrito = Carrito.objects.get(id=carrito_id) # Se obtiene el carrito
         productos_en_carrito = CarritoProducto.objects.filter(carrito=carrito) # Se obtienen los productos del carrito
         productos = [ # Se crea una lista con los productos del carrito
-            {'id': cp.producto.id, 'nombre': cp.producto.nombre, 'cantidad': cp.cantidad, 'precio': cp.producto.precio} # Se crea un diccionario con los datos del producto
+            {'id': cp.producto.id, 'nombre': cp.producto.nombre, 'cantidad': cp.cantidad, 'precio': cp.producto.precioOferta} # Se crea un diccionario con los datos del producto
             for cp in productos_en_carrito # Se recorren los productos del carrito
         ]
-        total = sum(cp.cantidad * cp.producto.precio for cp in productos_en_carrito) # Se calcula el total del carrito
+        total = sum(cp.cantidad * cp.producto.precioOferta for cp in productos_en_carrito) # Se calcula el total del carrito
         return JsonResponse({'productos': productos, 'total': float(total)}) # Se responde con los productos y el total
     else: # Si no existe un carrito en la sesión
         return JsonResponse({'productos': [], 'total': 0.0}) # Se responde con una lista vacía y total 0.0
@@ -74,7 +72,7 @@ def actualizar_carrito(request, producto_id): # Vista para actualizar la cantida
                 carrito_producto.delete() # Se elimina el CarritoProducto
             # Calcular el total del carrito después de actualizar
             productos_en_carrito = CarritoProducto.objects.filter(carrito_id=carrito_id) # Se obtienen los productos del carrito
-            total_carrito = sum(item.cantidad * item.producto.precio for item in productos_en_carrito) # Se calcula el total del carrito
+            total_carrito = sum(item.cantidad * item.producto.precioOferta for item in productos_en_carrito) # Se calcula el total del carrito
             return JsonResponse({'mensaje': 'Cantidad actualizada correctamente', 'totalCarrito': float(total_carrito)}) # Se responde con un mensaje y el total del carrito
         return JsonResponse({'mensaje': 'Error al actualizar el carrito'}, status=400) # Si no existe un carrito en la sesión, se responde con un mensaje de error
     except Exception as e: # Si ocurre un error
@@ -105,7 +103,6 @@ def hogar(request):
 
 def piso_y_pared(request):
     return render(request, 'piso-y-pared.html')
-
 
 def formulario_datos(request): # Vista para el formulario de datos del pedido
     pedido_id = request.session.get("pedido_id") # Se obtiene el id del pedido de la sesión
@@ -146,10 +143,10 @@ def carrito(request): # Vista para el carrito de compras
                 'nombre': cp.producto.nombre,
                 'descripcion': cp.producto.descripcion,
                 'detalleCompleto': cp.producto.detalleCompleto,
-                'precio': cp.producto.precio,
+                'precio': cp.producto.precioOferta,
                 'cantidad': cp.cantidad,
                 'imagen': cp.producto.imagen.url if cp.producto.imagen else '',
-                'total': cp.cantidad * cp.producto.precio,  # Total para cada producto
+                'total': cp.cantidad * cp.producto.precioOferta,  # Total para cada producto
             }
             for cp in productos_en_carrito
         ]
@@ -244,36 +241,36 @@ def webpay_confirmacion(request): # Vista para confirmar el pago
 
 def pago_fallido(request):
     # Limpiar la sesión en caso de pago fallido
-    request.session.pop('carrito_id', None)
-    request.session.pop('pedido_id', None)
+    request.session.pop('carrito_id', None) # Eliminar el carrito de la sesión
+    request.session.pop('pedido_id', None) # Eliminar el pedido de la sesión
     return render(request, 'pago_fallido.html', {'mensaje': 'Hubo un problema con el pago. Por favor, inténtelo de nuevo.'})
 
     
-def detalle(request, producto_id):
-    producto = get_object_or_404(Producto, pk=producto_id)
+def detalle(request, producto_id): # Vista para ver el detalle de un producto
+    producto = get_object_or_404(Producto, pk=producto_id) # Se obtiene el producto
     
-    if request.method == 'POST':
-        moneda = request.POST.get('moneda')
-    else:
-        moneda = 'CLP'
+    if request.method == 'POST': # Si se envió el formulario
+        moneda = request.POST.get('moneda') # Se obtiene la moneda seleccionada
+    else: # Si no se envió el formulario
+        moneda = 'CLP' # Se establece la moneda por defecto en pesos chilenos
 
-    print(f"Moneda seleccionada: {moneda}")
-    serie_codigo = SERIES_CODIGOS.get(moneda)
-    tipo_cambio = obtener_tipo_cambio(serie_codigo)
+    print(f"Moneda seleccionada: {moneda}") # Se imprime la moneda seleccionada
+    serie_codigo = SERIES_CODIGOS.get(moneda) # Se obtiene el código de la serie
+    tipo_cambio = obtener_tipo_cambio(serie_codigo) # Se obtiene el tipo de cambio
 
-    print(f"Tipo de cambio para {moneda}: {tipo_cambio}")
+    print(f"Tipo de cambio para {moneda}: {tipo_cambio}") # Se imprime el tipo de cambio
 
-    if tipo_cambio != Decimal('1'):
-        precio_convertido = producto.precio / tipo_cambio
-    else:
-        precio_convertido = producto.precio
+    if tipo_cambio != Decimal('1'): # Si el tipo de cambio es distinto de 1
+        precio_convertido = producto.precioOferta / tipo_cambio # Se convierte el precio
+    else: # Si el tipo de cambio es 1
+        precio_convertido = producto.precioOferta # Se mantiene el precio original
 
-    print(f"Precio convertido: {precio_convertido}")
+    print(f"Precio convertido: {precio_convertido}") # Se imprime el precio convertido
 
-    context = {
+    context = { # Se crea un diccionario con los datos a enviar al template
         'producto': producto,
         'moneda': moneda,
         'precio_convertido': precio_convertido,
         'tipo_cambio': tipo_cambio
     }
-    return render(request, 'detalle-producto.html', context)
+    return render(request, 'detalle-producto.html', context) 
