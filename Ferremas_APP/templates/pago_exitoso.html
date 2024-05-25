@@ -1,15 +1,26 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block contenido %}
-<h1>Pago Exitoso</h1>
-<p>Tu pago ha sido procesado exitosamente.</p>
-<p>Detalles del pedido:</p>
-<ul>
-    <li>Número de Pedido: {{ pedido.numero_pedido }}</li>
-    <li>RUT: {{ pedido.rut }}</li>
-    <li>Nombre: {{ pedido.nombre }}</li>
-    <li>Apellidos: {{ pedido.apellidos }}</li>
-    <li>Correo Electrónico: {{ pedido.email }}</li>
-</ul>
+<div class="container-fuid d-flex justify-content-center align-items-center" style="height: 100vh">
+    <div class="container d-flex justify-content-center bg-success-subtle rounded-5 w-25" style="height: 600px; margin-top: 80px; margin-bottom: 80px;">
+        <div class="d-flex flex-column align-items-center justify-content-center ">
+            <div class="justify-content-center align-items-center">
+                <h1 class="mb-5" style="font-size: 3.2rem; font-weight: bold;">Pago Exitoso</h1>
+            </div>
+            <div class="justify-content-center align-items-center">
+                <p class="fs-2 mb-5">Tu pago ha sido procesado exitosamente.</p>
+                <p class="fs-2">Detalles del pedido.</p>
+                <ul class="fs-2" style="list-style: none;">
+                    <li><strong>Número de Pedido: </strong>{{ pedido.numero_pedido }}</li>
+                    <li><strong>RUT: </strong>{{ pedido.rut }}</li>
+                    <li><strong>Nombre: </strong>{{ pedido.nombre }}</li>
+                    <li><strong>Apellidos: </strong>{{ pedido.apellidos }}</li>
+                    <li><strong>Correo Electrónico: </strong>{{ pedido.email }}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
 

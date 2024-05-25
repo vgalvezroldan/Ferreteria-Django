@@ -28,26 +28,40 @@
                     <li>{{ producto.lista10|lower|title }}</li>
                 </div>
             </ul>
-            <div class="container d-flex justify-content-start">
+            <div class="container d-flex justify-content-between ps-0 mb-5 ">
                 <p style="font-size: 2.4rem; color: #22b671;">Stock Disponible</p>
                 <p style="font-size: 2.4rem; color: #929292; margin-left: auto;">
                     <span style="background-color: rgb(255, 255, 255); padding: 1px 15px; border: #5f5f5f solid 1px; border-radius: 5px;">{{ producto.stock }}</span><span style="color: #22b671;"> uds.</span> 
                 </p>
             </div>
-            <p><button onclick="agregarAlCarrito('{{ producto.id }}')" class="btn btn-primary">Agregar al Carrito</button>
-                <form method="post" action="" class="form-inline my-2">
-                    {% csrf_token %}
-                    <label for="moneda" class="mr-2">Seleccione la Moneda:</label>
-                    <select name="moneda" id="moneda" class="form-control mr-2" onchange="this.form.submit()">
-                        <option value="CLP" {% if moneda == 'CLP' %}selected{% endif %}>CLP</option>
-                        <option value="USD" {% if moneda == 'USD' %}selected{% endif %}>USD</option>
-                        <option value="ARS" {% if moneda == 'ARS' %}selected{% endif %}>ARS</option>
-                    </select>
-                </form>
-                <p>Precio en {{ moneda }}: ${{ precio_convertido|floatformat:2 }}</p>
-                {% if tipo_cambio != 1 %}
-                    <p>Tipo de Cambio: ${{ tipo_cambio|floatformat:2 }} CLP/{{ moneda }}</p>
-                {% endif %}
+            <div style="margin-bottom: 80px;">
+                <button onclick="agregarAlCarrito('{{ producto.id }}')" class="btn btn-success fs-2 btn-lg mb-5 px-5" >Agregar al Carrito</button>
+                <div class="bg-success-subtle px-5 rounded-3 mt-5">
+                    <form method="post" action="" class="pt-5 form-inline">
+                        {% csrf_token %}
+                        <label for="moneda" class="fs-2 me-3 ">Seleccione la Moneda:</label>
+                        <select style="background-color: rgb(255, 255, 255); 
+                                       padding: 5px; border: #5f5f5f solid 1px; 
+                                       border-radius: 5px;
+                                       color: #929292 ;" 
+                                       class="fs-2" 
+                                       name="moneda" 
+                                       id="moneda" 
+                                       class="form-control" 
+                                       onchange="this.form.submit()">
+                            <option value="CLP" {% if moneda == 'CLP' %}selected{% endif %}>CLP</option>
+                            <option value="USD" {% if moneda == 'USD' %}selected{% endif %}>USD</option>
+                            <option value="ARS" {% if moneda == 'ARS' %}selected{% endif %}>ARS</option>
+                        </select>
+                    </form>
+                    <div class="mt-3 rounded-3 pb-5 fs-2" style="font-weight: bold; text-transform: uppercase;">
+                        <p>Precio en {{ moneda }}: ${{ precio_convertido|floatformat:2 }}</p>
+                        {% if tipo_cambio != 1 %}
+                        <p>Tipo de Cambio: ${{ tipo_cambio|floatformat:2 }} CLP/{{ moneda }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
         </div>    
     </div>
 </div>

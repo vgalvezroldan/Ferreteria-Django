@@ -1,43 +1,50 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block contenido %}
-<div class="container mt-5">
-    <h1>Datos del Cliente</h1>
-    <form method="post" action="">
-        {% csrf_token %}
-        <div class="mb-3">
-            <label for="id_tipo_entrega" class="form-label">Tipo de Entrega</label>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="tipo_entrega" id="tipo_entrega_rt" value="RT" checked>
-                <label class="form-check-label" for="tipo_entrega_rt">
-                    Retiro en Tienda
-                </label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="tipo_entrega" id="tipo_entrega_dd" value="DD" disabled>
-                <label class="form-check-label" for="tipo_entrega_dd">
-                    Despacho a Domicilio (Próximamente)
-                </label>
+<div style="height: 910px;">
+    <div class="container bg-secondary bg-opacity-10 rounded-5 pt-5" style="height: 800px; width: 600px; margin-top: 80px;">
+        <div class="row mt-5 mb-5 text-uppercase">
+            <div class="col text-center mb-5">
+                <h1 class="fw-bold" style="font-size: 3.6rem;">Datos del Cliente</h1>
             </div>
         </div>
-        <div class="mb-3">
-            <label for="id_rut" class="form-label">RUT</label>
-            {{ form.rut }}
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <form class="formulario-retiro-entrega" method="post" action="">
+                    {% csrf_token %}
+                    <div class=" mb-5">
+                        <label for="id_tipo_entrega" class="form-label mb-5 fs-2">Seleccione el tipo de entrega</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tipo_entrega" id="tipo_entrega_rt" value="RT" checked>
+                            <label class="form-check-label" for="tipo_entrega_rt">Retiro en Tienda</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="tipo_entrega" id="tipo_entrega_dd" value="DD" >
+                            <label class="form-check-label" for="tipo_entrega_dd">Despacho a Domicilio (Próximamente)</label>
+                        </div>
+                    </div>
+                    <div class="mb-3 fs-3">
+                        <label for="id_rut" class="form-label input-retiro-entrega">Rut</label>
+                        {{ form.rut }}
+                    </div>
+                    <div class="mb-3 fs-3">
+                        <label for="id_nombre" class="form-label">Nombre</label>
+                        {{ form.nombre }}
+                    </div>
+                    <div class="mb-3 fs-3">
+                        <label for="id_apellidos" class="form-label">Apellidos</label>
+                        {{ form.apellidos }}
+                    </div>
+                    <div class="mb-3 fs-3">
+                        <label for="id_email" class="form-label">Correo Electrónico</label>
+                        {{ form.email }}
+                    </div>
+                    <button type="submit" class="btn btn-success fs-2 btn-lg mt-5 px-5">Continuar</button>
+                </form>
+            </div>
         </div>
-        <div class="mb-3">
-            <label for="id_nombre" class="form-label">Nombre</label>
-            {{ form.nombre }}
-        </div>
-        <div class="mb-3">
-            <label for="id_apellidos" class="form-label">Apellidos</label>
-            {{ form.apellidos }}
-        </div>
-        <div class="mb-3">
-            <label for="id_email" class="form-label">Correo Electrónico</label>
-            {{ form.email }}
-        </div>
-        <button type="submit" class="btn btn-primary">Continuar</button>
-    </form>
+    </div>
 </div>
 
 <script>
@@ -54,4 +61,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
+
 {% endblock %}
