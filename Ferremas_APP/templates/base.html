@@ -22,20 +22,16 @@
 <!-- Modal Carrito -->
 <div class="modal fade" id="carritoModal" tabindex="-1" aria-labelledby="carritoModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="carritoModalLabel">Carrito de Compras</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-content rounded-5">
+      <div class="modal-header bg-success rounded-top-5">
+        <h2 class="modal-title text-white mx-3  " id="carritoModalLabel">Carrito de Compras</h2>
+        <button type="button" class="btn-close me-3 " data-bs-dismiss="modal" aria-label="Close" style="color: white;"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body ms-3">
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Continuar Comprando
-        </button>
-        <button type="button" class="btn btn-primary">
-          Proceder al Pago
-        </button>
+      <div class="modal-footer d-flex justify-content-between mx-3 ">
+        <button type="button" class="btn btn-success btn-lg mb-3 px-5" style="font-size: 2rem;" data-bs-dismiss="modal">Seguir comprando</button>
+        <button type="button" class="btn btn-warning btn-lg mb-3 px-5" style="font-size: 2rem;">Ir a pagar</button>
       </div>
     </div>
   </div>
@@ -43,6 +39,7 @@
 <!-- Fin Modal Carrito -->
 
 <body>
+  <!-- Oferta Despacho -->
   <section>
     <div class="container-fluid d-flex justify-content-center bg-warning" style="height: 40px">
       <p class="text-black" style="font-size: 2.4rem; font-weight: bold">
@@ -51,11 +48,14 @@
       </p>
     </div>
   </section>
+  <!-- Fin Oferta Despacho -->
+
+  <!-- Header con navbar -->
   <header class="container-fluid bg-success d-flex align-items-center justify-content-between"
     style="height: 120px; padding-right: 60px">
     <div class="container-fluid">
       <nav class="navbar navbar-expand-md justify-content-between">
-        <a class="navbar-brand" href="#"><img src="{% static 'img/Logo-xl.png' %}" alt="Logo" height="80"
+        <a class="navbar-brand" href="{% url 'index' %}"><img src="{% static 'img/Logo-xl.png' %}" alt="Logo" height="80"
             class="d-inline-block align-text-top" /></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
           aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,28 +86,35 @@
           </ul>
         </div>
         <!-- Carrito -->
-        <div class="cart-icon-container">
-          <button id="icono-carrito" class="btn" data-bs-toggle="modal" data-bs-target="#carritoModal">
-            <i class="fas fa-shopping-cart"></i> Carrito
+        <div class="cart-icon-container bg-success" style="margin-left: 130px; padding-right: 50px;">
+          <button id="icono-carrito" class="btn boton-carrito" data-bs-toggle="modal" data-bs-target="#carritoModal">
+            <i class="bi bi-cart" style="font-size: 4rem; color: white;"></i>
           </button>
         </div>
+        <!-- Fin Carrito -->
       </nav>
     </div>
   </header>
+  <!-- Fin Header con navbar -->
 
-  <main>{% block contenido %} {% endblock %}</main>
+  <main>
 
-  <footer class="container-fluid bg-success d-flex align-items-center">
-    <div class="container align-items-center">
-      <a href="#"><img src="{% static 'img/Logo-xs.png' %}" alt="Logo" height="100px"
-          class="d-inline-block align-text-top" /></a>
+    {% block contenido %}
+
+    {% endblock %}
+
+  </main>
+
+  <footer class="container-fluid bg-success d-flex justify-content-center align-items-center">
+    <div class="container d-flex flex-column align-items-center text-white ">
+      <p class="text-center mb-0 ">Ferremas - Ferretería y Construcción © 2024</p>
+      <p class="text-center ">Desarrollado por <strong>InnovaTech</strong></p>
     </div>
   </footer>
 
+
   <!-- Script de Bootstrap -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"crossorigin="anonymous"></script>
 
     
   <!-- Función para agregar al Carrito -->
@@ -133,6 +140,7 @@
           console.error("Error al agregar el producto al carrito:", error) 
         );
     }
+
     // Función para obtener el token CSRF
     function getCookie(name) {
       let cookieValue = null;
@@ -169,8 +177,20 @@
           if (data.productos && data.productos.length > 0) { // Si hay productos en el carrito
             data.productos.forEach(producto => { // Recorrer los productos
               const productoDiv = document.createElement("div"); // Crear un elemento div
-              productoDiv.innerHTML = `<h5>${producto.nombre}</h5><p>Precio unitario: $${producto.precio}</p>`; // Agregar el nombre y el precio del producto al div
+              productoDiv.style.marginTop = "10px";
+              productoDiv.style.marginBottom = "10px";
+              productoDiv.innerHTML = `<h5 style="font-size: 2rem; font-weight: bold;">${producto.nombre}</h5>
+                                       <p>Precio unitario: $${producto.precio}</p>`; // Agregar el nombre y el precio del producto al div
               const cantidadInput = document.createElement("input"); // Crear un input para la cantidad
+              cantidadInput.style.fontWeight = "bold";
+              cantidadInput.style.borderRadius = "5px";
+              cantidadInput.style.width = "80px";
+              cantidadInput.style.paddingLeft = "10px";
+              cantidadInput.style.paddingTop = "5px";
+              cantidadInput.style.paddingBottom = "5px";
+              cantidadInput.style.marginLeft = "15px";
+              cantidadInput.style.marginRight = "10px";
+              cantidadInput.style.border = "1px solid #5f5f5f";
               cantidadInput.type = "number"; 
               cantidadInput.value = producto.cantidad; // Establecer la cantidad del producto
               cantidadInput.min = "1";
@@ -179,6 +199,12 @@
                 actualizarCantidad(producto.id, cantidadInput.value);
               });
               const eliminarBtn = document.createElement("button"); // Crear un botón para eliminar el producto
+              eliminarBtn.style.color = "white";
+              eliminarBtn.style.fontWeight = "bold";
+              eliminarBtn.style.padding = "6px";
+              eliminarBtn.style.borderRadius = "5px";
+              eliminarBtn.style.border = "none";
+              eliminarBtn.style.backgroundColor = "#b42929";
               eliminarBtn.textContent = "Eliminar"; // Establecer el texto del botón
               eliminarBtn.addEventListener("click", () => eliminarProducto(producto.id)); // Agregar un evento click al botón
               productoDiv.appendChild(cantidadInput); // Agregar el input al div
@@ -195,6 +221,7 @@
         })
         .catch(error => console.error("Error al cargar el carrito:", error)); // Mostrar un mensaje de error 
     }
+
     // Función para actualizar la cantidad del producto
     function actualizarCantidad(productoId, cantidad) {
       fetch(`/actualizar_carrito/${productoId}/`, { // Realizar una petición POST a la URL /actualizar_carrito/
@@ -256,7 +283,7 @@
       carritoModal.addEventListener("show.bs.modal", function () { // Evento que se dispara al mostrar el modal
         cargarCarrito(); // Cargar el carrito
       });
-      var procederAlPagoBtn = document.querySelector("#carritoModal .btn-primary"); // Obtener el botón de proceder al pago
+      var procederAlPagoBtn = document.querySelector("#carritoModal .btn-warning"); // Obtener el botón de proceder al pago
       procederAlPagoBtn.addEventListener("click", function () { // Agregar un evento click al botón
         window.location.href = "/carrito/"; // Redirigir a la página de carrito
       });

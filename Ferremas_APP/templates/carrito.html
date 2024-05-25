@@ -1,47 +1,56 @@
 {% extends 'base.html' %}
 {% load humanize custom_filters %}
+{% load static %}
 
 {% block contenido %}
-<div class="container mt-5">
-    <h1>Carrito de Compras</h1>
-    <div class="mb-4">
-        <a href="{% url 'formulario_datos' %}" class="btn btn-secondary">Modificar datos Cliente</a>
-    </div>
-    <table class="table table-striped">
-        <thead class="table-dark">
-            <tr>
-                <th scope="col">Imagen</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Detalle Completo</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Precio Unitario</th>
-                <th scope="col">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for producto in productos %}
-            <tr>
-                <td><img src="{{ producto.imagen }}" alt="{{ producto.nombre }}" class="img-fluid" width="50"></td>
-                <td>{{ producto.nombre }}</td>
-                <td>{{ producto.descripcion }}</td>
-                <td>{{ producto.detalleCompleto }}</td>
-                <td>{{ producto.cantidad }}</td>
-                <td>${{ producto.precio|floatformat:0|intcomma|replace_comma }}</td>
-                <td>${{ producto.total|floatformat:0|intcomma|replace_comma }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <div class="text-end">
-        <p>Subtotal: ${{ total|floatformat:0|intcomma|replace_comma }}</p>
-        <p>IVA (19%): ${{ iva|floatformat:0|intcomma|replace_comma }}</p>
-        <h4>Total: ${{ total_con_iva|floatformat:0|intcomma|replace_comma }}</h4>
-        <form action="{% url 'iniciar_pago' %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" name="total_con_iva" value="{{ total_con_iva|floatformat:0 }}">
-            <button type="submit" class="btn btn-primary">Pagar</button>
-        </form>
+<div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="bg-secondary bg-opacity-10 p-5 rounded-5 w-75">
+        <div class="mb-5">
+            <h1 class="text-center mb-4" style="font-size: 3.6rem; font-weight: bold; text-transform: uppercase;">Carrito de Compras</h1>
+        </div>
+        <div class="table-responsive" style="max-height: 600px;">
+            <table class="table table-bordered" >
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col" class="px-5 py-4">Imagen</th>
+                        <th scope="col" class="px-5 py-4">Nombre</th>
+                        <th scope="col" class="px-5 py-4">Descripción</th>
+                        <th scope="col" class="px-5 py-4">Detalle Completo</th>
+                        <th scope="col" class="px-5 py-4">Cantidad</th>
+                        <th scope="col" class="px-3 py-4">Precio Unitario</th>
+                        <th scope="col" class="px-5 py-4">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in productos %}
+                    <tr>
+                        <td class="px-5 py-5"><img src="{{ producto.imagen }}" alt="{{ producto.nombre }}" class="p-2 rounded-3 border border-2 border-dark-subtle" style="max-width: 150px;"></td>
+                        <td class="px-5 py-5">{{ producto.nombre }}</td>
+                        <td class="px-5 py-5">{{ producto.descripcion }}</td>
+                        <td class="px-5 py-5">{{ producto.detalleCompleto }}</td>
+                        <td class="px-5 py-5">{{ producto.cantidad }}</td>
+                        <td class="px-5 py-5">${{ producto.precio|floatformat:0|intcomma|replace_comma }}</td>
+                        <td class="px-5 py-5">${{ producto.total|floatformat:0|intcomma|replace_comma }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="text-end">
+            <p class="fs-3" style="font-weight: bold; text-transform: uppercase;">Subtotal: ${{ total|floatformat:0|intcomma|replace_comma }}</p>
+            <p class="fs-3" style="font-weight: bold; text-transform: uppercase;">IVA (19%): ${{ iva|floatformat:0|intcomma|replace_comma }}</p>
+            <h4 class="fs-1" style="font-weight: bold; text-transform: uppercase;">Total: ${{ total_con_iva|floatformat:0|intcomma|replace_comma }}</h4>
+            <div class="d-flex justify-content-between">
+                <div>
+                    <a href="{% url 'formulario_datos' %}" class="btn btn-warning fs-2 btn-lg mt-5 px-5">Modificar datos cliente</a>
+                </div>
+                <form action="{% url 'iniciar_pago' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="total_con_iva" value="{{ total_con_iva|floatformat:0 }}">
+                    <button type="submit" class="btn btn-success fs-2 btn-lg mt-5 px-5">Pagar</button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

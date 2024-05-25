@@ -15,7 +15,6 @@ body {
     font-size: 1.6rem;
 }
 
-
 footer {
     width: 100%;
     height: 130px;
@@ -31,3 +30,27 @@ footer {
 #destacado {
     text-shadow: 2px 2px 4px #000000;
 }
+
+::placeholder {
+    font-size: 1.6rem;
+    color: #97979767 !important;
+}
+
+.form-control {
+    font-size: 1.8rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 15px;
+    height: auto;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: none;
+}
+
+.form-control:focus {
+    border: 1px solid rgb(34, 182, 113);
+    outline: none;
+    box-shadow: 0 0 10px rgba(100, 202, 146, 0.5);
+}
+
+/* color verde #22b671 */

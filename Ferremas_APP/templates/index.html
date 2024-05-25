@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 
 {% block contenido %}
@@ -46,8 +47,7 @@
 
 <!-- PRODUCTOS DESTACADOS -->
 <section class="container d-flex justify-content-center">
-  <h1 class="text-uppercase mt-5 text-success text-center display-1 display-lg-1" style="font-weight: bold;">Productos
-    Destacados</h1>
+  <h1 class="text-uppercase mt-5 text-success text-center display-1 display-lg-1" style="font-weight: bold;">Productos Destacados</h1>
 </section>
 <!-- FIN PRODUCTOS DESTACADOS -->
 
@@ -62,7 +62,7 @@
           <img src="{{ producto.imagen.url }}" class="card-img-top"
             style="width: 350px; height: 350px; object-fit: cover; border-radius: 10PX;" alt="...">
         </div>
-        <div class="card-body mx-4 d-flex flex-column">
+        <div class="card-body mx-3 d-flex flex-column">
           <h5 class="card-title mt-3" style="font-size: 2.4rem;">{{ producto.nombre }}</h5>
           <p class="card-text">{{ producto.descripcion|lower|title|truncatechars:80 }}</p>
           <div class="d-flex justify-content-between">
@@ -73,16 +73,14 @@
             <p style="font-size: 2.4rem; color: #22b671">Stock Disponible</p>
             <p style="font-size: 2.4rem; color: #22b671;">{{ producto.stock }} uds.</p>
           </div>
-          <div class="d-flex justify-content-end">
-            <a href="{% url 'detalle' producto.id %}" class="btn btn-success btn-lg mb-3 px-5"
-              style="font-size: 2rem;">Ver más</a>
-            <button onclick="agregarAlCarrito('{{ producto.id }}')" class="btn btn-primary">Agregar al Carrito</button>
+          <div class="d-flex justify-content-between ">
+            <a href="{% url 'detalle' producto.id %}" class="btn btn-success btn-lg mb-3 px-5" style="font-size: 2rem;">Ver más</a>
+            <button onclick="agregarAlCarrito('{{ producto.id }}')" class="btn btn-warning btn-lg mb-3 px-5" style="font-size: 2rem;">Agregar</button>
           </div>
         </div>
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
   </div>
 </section>
 
