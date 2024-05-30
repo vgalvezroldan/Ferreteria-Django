@@ -53,29 +53,29 @@
 
 <!-- TARJETA PRODUCTO -->
 <section style="margin-top: 80px; margin-bottom: 80px;">
-  <div class="container-fluid d-flex justify-content-center mb-5">
-    <div class="row mx-auto">
+  <div class="container">
+    <div class="row">
       {% for producto in productos %}
-      <div class="card border-0 mx-4  mb-5"
-        style="width: 400px; height: 675px; background-color: rgb(240, 240, 240); padding-top: 27px; border-radius: 10px;">
-        <div class="card-img-container d-flex justify-content-center align-items-center">
-          <img src="{{ producto.imagen.url }}" class="card-img-top"
-            style="width: 350px; height: 350px; object-fit: cover; border-radius: 10PX;" alt="...">
-        </div>
-        <div class="card-body mx-3 d-flex flex-column">
-          <h5 class="card-title mt-3" style="font-size: 2.4rem;">{{ producto.nombre }}</h5>
-          <p class="card-text">{{ producto.descripcion|lower|title|truncatechars:80 }}</p>
-          <div class="d-flex justify-content-between">
-            <p class="text-success" style="font-size: 2.4rem; font-weight: bold;">{{ producto.precioOferta }}</p>
-            <p class="text-body-tertiary text-decoration-line-through ml-auto" style="font-size: 2.4rem;">{{ producto.precio }}</p>
+      <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
+        <div class="card border-0" style="background-color: rgb(240, 240, 240); border-radius: 10px;">
+          <div class="card-img-container d-flex justify-content-center align-items-center">
+            <img src="{{ producto.imagen.url }}" class="card-img-top img-fluid" style="width: 90%; margin-top: 12px; border-radius: 10px; object-fit: cover;" alt="...">
           </div>
-          <div class="d-flex justify-content-between">
-            <p style="font-size: 2.4rem; color: #22b671">Stock Disponible</p>
-            <p style="font-size: 2.4rem; color: #22b671;">{{ producto.stock }} uds.</p>
-          </div>
-          <div class="d-flex justify-content-between ">
-            <a href="{% url 'detalle' producto.id %}" class="btn btn-success btn-lg mb-3 px-5" style="font-size: 2rem;">Ver más</a>
-            <button onclick="agregarAlCarrito('{{ producto.id }}')" class="btn btn-warning btn-lg mb-3 px-5" style="font-size: 2rem;">Agregar</button>
+          <div class="card-body" style="margin-left: 4px; margin-right: 4px;">
+            <h5 class="card-title">{{ producto.nombre }}</h5>
+            <p class="card-text">{{ producto.descripcion|lower|title|truncatechars:80 }}</p>
+            <div class="d-flex justify-content-between">
+              <p class="text-success font-weight-bold">{{ producto.precioOferta }}</p>
+              <p class="text-body-tertiary text-decoration-line-through">{{ producto.precio }}</p>
+            </div>
+            <div class="d-flex justify-content-between">
+              <p style="color: #22b671;">Stock Disponible</p>
+              <p style="color: #22b671;">{{ producto.stock }} uds.</p>
+            </div>
+            <div class="d-flex justify-content-between mb-2">
+              <a href="{% url 'detalle' producto.id %}" class="btn btn-success btn-lg" style="font-size: 1.6rem;">Ver más</a>
+              <button onclick="agregarAlCarrito('{{ producto.id }}')" class="btn btn-warning btn-lg" style="font-size: 1.6rem;">Agregar</button>
+            </div>
           </div>
         </div>
       </div>
@@ -83,6 +83,7 @@
     </div>
   </div>
 </section>
+
 
 
 
