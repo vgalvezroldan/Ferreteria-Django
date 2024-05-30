@@ -3,12 +3,12 @@
 {% load static %}
 
 {% block contenido %}
-<div class="container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
-    <div class="bg-secondary bg-opacity-10 p-5 rounded-5 w-75">
+<div class="container-fluid d-flex justify-content-center align-items-center" style="height: 1000px;">
+    <div class="bg-secondary bg-opacity-10 p-5 rounded-5">
         <div class="mb-5">
             <h1 class="text-center mb-4" style="font-size: 3.6rem; font-weight: bold; text-transform: uppercase;">Carrito de Compras</h1>
         </div>
-        <div class="table-responsive" style="max-height: 600px;">
+        <div class="table-responsive" style="max-height: 550px; max-width: 1100px;">
             <table class="table table-bordered" >
                 <thead class="table-dark">
                     <tr>
@@ -27,7 +27,7 @@
                         <td class="px-5 py-5"><img src="{{ producto.imagen }}" alt="{{ producto.nombre }}" class="p-2 rounded-3 border border-2 border-dark-subtle" style="max-width: 150px;"></td>
                         <td class="px-5 py-5">{{ producto.nombre }}</td>
                         <td class="px-5 py-5">{{ producto.descripcion }}</td>
-                        <td class="px-5 py-5">{{ producto.detalleCompleto }}</td>
+                        <td class="px-5 py-5">{{ producto.detalleCompleto|truncatechars:80 }}</td>
                         <td class="px-5 py-5">{{ producto.cantidad }}</td>
                         <td class="px-5 py-5">${{ producto.precio|floatformat:0|intcomma|replace_comma }}</td>
                         <td class="px-5 py-5">${{ producto.total|floatformat:0|intcomma|replace_comma }}</td>
@@ -36,7 +36,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="text-end">
+        <div class="text-end mt-5">
             <p class="fs-3" style="font-weight: bold; text-transform: uppercase;">Subtotal: ${{ total|floatformat:0|intcomma|replace_comma }}</p>
             <p class="fs-3" style="font-weight: bold; text-transform: uppercase;">IVA (19%): ${{ iva|floatformat:0|intcomma|replace_comma }}</p>
             <h4 class="fs-1" style="font-weight: bold; text-transform: uppercase;">Total: ${{ total_con_iva|floatformat:0|intcomma|replace_comma }}</h4>
