@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load humanize custom_filters %}
+{% load custom_filters %}
 {% load static %}
 
 {% block contenido %}
@@ -10,7 +10,7 @@
         </div>
         <div class="table-responsive" style="max-height: 550px; max-width: 1100px;">
             <table class="table table-bordered" >
-                <thead class="table-dark">
+                <thead class="table-success">
                     <tr>
                         <th scope="col" class="px-5 py-4">Imagen</th>
                         <th scope="col" class="px-5 py-4">Nombre</th>
@@ -29,17 +29,17 @@
                         <td class="px-5 py-5">{{ producto.descripcion }}</td>
                         <td class="px-5 py-5">{{ producto.detalleCompleto|truncatechars:80 }}</td>
                         <td class="px-5 py-5">{{ producto.cantidad }}</td>
-                        <td class="px-5 py-5">${{ producto.precio|floatformat:0|intcomma|replace_comma }}</td>
-                        <td class="px-5 py-5">${{ producto.total|floatformat:0|intcomma|replace_comma }}</td>
+                        <td class="px-5 py-5">{{ producto.precio|formato_moneda }}</td>
+                        <td class="px-5 py-5">{{ producto.total|formato_moneda }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
         <div class="text-end mt-5">
-            <p class="fs-3" style="font-weight: bold; text-transform: uppercase;">Subtotal: ${{ total|floatformat:0|intcomma|replace_comma }}</p>
-            <p class="fs-3" style="font-weight: bold; text-transform: uppercase;">IVA (19%): ${{ iva|floatformat:0|intcomma|replace_comma }}</p>
-            <h4 class="fs-1" style="font-weight: bold; text-transform: uppercase;">Total: ${{ total_con_iva|floatformat:0|intcomma|replace_comma }}</h4>
+            <p class="fs-3" style="font-weight: bold; text-transform: uppercase;">Subtotal: {{ total|formato_moneda }}</p>
+            <p class="fs-3" style="font-weight: bold; text-transform: uppercase;">IVA (19%): {{ iva|formato_moneda }}</p>
+            <h4 class="fs-1" style="font-weight: bold; text-transform: uppercase;">Total: {{ total_con_iva|formato_moneda }}</h4>
             <div class="d-flex justify-content-between">
                 <div>
                     <a href="{% url 'formulario_datos' %}" class="btn btn-warning fs-2 btn-lg mt-5 px-5">Modificar datos cliente</a>

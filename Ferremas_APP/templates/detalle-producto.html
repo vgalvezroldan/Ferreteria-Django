@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load custom_filters %}
 {% block contenido %}
 <!-- DETALLE DE PRODUCTO -->
 <div class="container" style="margin-top: 120px;">
@@ -35,9 +35,10 @@
                 </p>
             </div>
             <div style="margin-bottom: 80px;">
+                {% csrf_token %}
                 <button onclick="agregarAlCarrito('{{ producto.id }}')" class="btn btn-success fs-2 btn-lg mb-5 px-5" >Agregar al Carrito</button>
                 <div class="bg-success-subtle px-5 rounded-3 mt-5">
-                    <form method="post" action="" class="pt-5 form-inline">
+                    <form id="moneda-form" class="pt-5 form-inline">
                         {% csrf_token %}
                         <label for="moneda" class="fs-2 me-3 ">Seleccione la Moneda:</label>
                         <select style="background-color: rgb(255, 255, 255); 
@@ -48,16 +49,16 @@
                                        name="moneda" 
                                        id="moneda" 
                                        class="form-control" 
-                                       onchange="this.form.submit()">
+                                       onchange="convertirMoneda('{{ producto.id }}')">
                             <option value="CLP" {% if moneda == 'CLP' %}selected{% endif %}>CLP</option>
                             <option value="USD" {% if moneda == 'USD' %}selected{% endif %}>USD</option>
                             <option value="ARS" {% if moneda == 'ARS' %}selected{% endif %}>ARS</option>
                         </select>
                     </form>
-                    <div class="mt-3 rounded-3 pb-5 fs-2" style="font-weight: bold; text-transform: uppercase;">
-                        <p>Precio en {{ moneda }}: ${{ precio_convertido|floatformat:2 }}</p>
+                    <div id="precio-convertido" class="mt-3 rounded-3 pb-5 fs-2" style="font-weight: bold; text-transform: uppercase;">
+                        <p>Precio en {{ moneda }}: {{ precio_convertido|formato_moneda:moneda }}</p>
                         {% if tipo_cambio != 1 %}
-                        <p>Tipo de Cambio: ${{ tipo_cambio|floatformat:2 }} CLP/{{ moneda }}</p>
+                        <p>Tipo de Cambio: {{ tipo_cambio|formato_moneda:'CLP' }} / {{ moneda }}</p>
                         {% endif %}
                     </div>
                 </div>
@@ -65,4 +66,30 @@
         </div>    
     </div>
 </div>
+
+<script>
+function convertirMoneda(productoId) {
+    const moneda = document.getElementById('moneda').value;
+    const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+    fetch(`/detalle/${productoId}/`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken,
+            'x-requested-with': 'XMLHttpRequest'
+        },
+        body: JSON.stringify({ moneda: moneda })
+    })
+    .then(response => response.json())
+    .then(data => {
+        const precioConvertidoDiv = document.getElementById('precio-convertido');
+        precioConvertidoDiv.innerHTML = `<p>Precio en ${data.moneda}: ${data.precio_convertido}</p>`;
+        if (data.tipo_cambio) {
+            precioConvertidoDiv.innerHTML += `<p>Tipo de Cambio: ${data.tipo_cambio} / ${data.moneda}</p>`;
+        }
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
 {% endblock %}

@@ -17,15 +17,15 @@
 </head>
 <body>
     <h1 style="font-size: 2.4rem; font-weight: 700; margin-bottom: 80; margin-top: 80px;">Confirmación de Pedido</h1>
-    <p class="mt-5 mb-0" >Estimado/a {{ pedido.nombre }} {{ pedido.apellidos }},</p>
+    <p class="mt-5 mb-0" >Estimado/a {{ perfil.nombre }} {{ perfil.apellidos }},</p>
     <p>Su pedido ha sido confirmado con los siguientes detalles:</p>
     <h2 class="mb-5" style="font-size: 1.8rem; font-weight: 700;">Detalles del Pedido</h2>
     <ul class="mb-5" style="list-style: none;">
         <li><strong>Número de Pedido:</strong> {{ pedido.numero_pedido }}</li>
-        <li><strong>RUT:</strong> {{ pedido.rut }}</li>
-        <li><strong>Nombre:</strong> {{ pedido.nombre }}</li>
-        <li><strong>Apellidos:</strong> {{ pedido.apellidos }}</li>
-        <li><strong>Correo Electrónico:</strong> {{ pedido.email }}</li>
+        <li><strong>RUT:</strong> {{ perfil.rut }}</li>
+        <li><strong>Nombre:</strong> {{ perfil.nombre }}</li>
+        <li><strong>Apellidos:</strong> {{ perfil.apellidos }}</li>
+        <li><strong>Correo Electrónico:</strong> {{ perfil.email }}</li>
     </ul>
     <h2 class="mb-5" style="font-size: 1.8rem; font-weight: 700;">Detalles de la Transacción</h2>
     <ul class="mb-5" style="list-style: none;">
@@ -36,30 +36,3 @@
     <h1>Gracias por su compra.</h1>
 </body>
 </html>
-<!-- <!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Confirmación de Pedido</title>
-</head>
-<body>
-    <h1>Confirmación de Pedido</h1>
-    <p>Estimado/a {{ pedido.nombre }} {{ pedido.apellidos }},</p>
-    <p>Su pedido ha sido confirmado con los siguientes detalles:</p>
-    <h2>Detalles del Pedido</h2>
-    <ul>
-        <li><strong>Número de Pedido:</strong> {{ pedido.numero_pedido }}</li>
-        <li><strong>RUT:</strong> {{ pedido.rut }}</li>
-        <li><strong>Nombre:</strong> {{ pedido.nombre }}</li>
-        <li><strong>Apellidos:</strong> {{ pedido.apellidos }}</li>
-        <li><strong>Correo Electrónico:</strong> {{ pedido.email }}</li>
-    </ul>
-    <h2>Detalles de la Transacción</h2>
-    <ul>
-        <li><strong>Token:</strong> {{ transaccion.token }}</li>
-        <li><strong>Monto:</strong> ${{ transaccion.amount }}</li>
-        <li><strong>Código de Autorización:</strong> {{ transaccion.authorization_code }}</li>
-    </ul>
-    <p>Gracias por su compra.</p>
-</body>
-</html> -->

@@ -4,20 +4,23 @@ from django.conf import settings
 from datetime import datetime, timedelta
 from decimal import Decimal
 import requests
+from .models import PerfilUsuario
 
 
-def enviar_correo_confirmacion(pedido, transaccion): # Función para enviar correo de confirmación de pedido
-    asunto = f'Confirmación de Pedido #{pedido.numero_pedido}' # Asunto del correo
-    mensaje = render_to_string('correo_confirmacion.html', { # Plantilla del correo
-        'pedido': pedido, # Datos del pedido
-        'transaccion': transaccion, # Datos de la transacción
+def enviar_correo_confirmacion(pedido, transaccion):
+    perfil = PerfilUsuario.objects.get(user=pedido.user)
+    asunto = f'Confirmación de Pedido #{pedido.numero_pedido}'
+    mensaje = render_to_string('correo_confirmacion.html', {
+        'pedido': pedido,
+        'transaccion': transaccion,
+        'perfil': perfil
     })
-    destinatario = pedido.email # Destinatario del correo
-    remitente = settings.DEFAULT_FROM_EMAIL # Remitente del correo
+    destinatario = perfil.email
+    remitente = settings.DEFAULT_FROM_EMAIL
 
-    email = EmailMessage(asunto, mensaje, remitente, [destinatario]) # Crear el objeto EmailMessage
-    email.content_subtype = 'html'  # Definir el contenido del correo como HTML
-    email.send(fail_silently=False) # Enviar el correo
+    email = EmailMessage(asunto, mensaje, remitente, [destinatario])
+    email.content_subtype = 'html'
+    email.send(fail_silently=False)
 
 
 SERIES_CODIGOS = {

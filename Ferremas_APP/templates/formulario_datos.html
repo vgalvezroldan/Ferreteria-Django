@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block contenido %}
 <div style="height: 910px;">
     <div class="container bg-secondary bg-opacity-10 rounded-5 pt-5" style="height: 800px; width: 600px; margin-top: 80px;">
@@ -11,7 +10,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <form class="formulario-retiro-entrega" method="post" action="">
+                <form id="datos-cliente-form" class="formulario-retiro-entrega" method="post" action="">
                     {% csrf_token %}
                     <div class=" mb-5">
                         <label for="id_tipo_entrega" class="form-label mb-5 fs-2">Seleccione el tipo de entrega</label>
@@ -40,7 +39,10 @@
                         <label for="id_email" class="form-label">Correo Electrónico</label>
                         {{ form.email }}
                     </div>
-                    <button type="submit" class="btn btn-success fs-2 btn-lg mt-5 px-5">Continuar</button>
+                    <div class="d-flex justify-content-between mt-5">
+                        <button type="submit" class="btn btn-success fs-2 btn-lg px-5">Ir al Carrito</button>
+                        <a href="{% url 'index' %}" class="btn btn-secondary fs-2 btn-lg px-5">Ir al Home</a>
+                    </div>
                 </form>
             </div>
         </div>
@@ -50,6 +52,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const rutInput = document.getElementById('id_rut');
+    
     rutInput.addEventListener('input', formatRUT);
     
     function formatRUT() {
@@ -59,6 +62,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         rutInput.value = value;
     }
+
+    // Función para verificar si el carrito tiene productos
+    function verificarCarrito() {
+        fetch("/ver_carrito/")
+            .then(response => response.json())
+            .then(data => {
+                const irAPagarBtn = document.getElementById('irAPagarBtn');
+                if (data.productos.length === 0) {
+                    irAPagarBtn.disabled = true;
+                } else {
+                    irAPagarBtn.disabled = false;
+                }
+            })
+            .catch(error => console.error("Error al verificar el carrito:", error));
+    }
+
+    verificarCarrito(); // Llamar a la función al cargar la página
 });
 </script>
 

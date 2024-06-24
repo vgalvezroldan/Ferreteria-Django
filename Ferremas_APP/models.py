@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
 class Producto(models.Model):
     nombre = models.CharField(max_length=100)
@@ -35,6 +35,7 @@ class CarritoProducto(models.Model):
     cantidad = models.IntegerField()
 
 class Pedido(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)  # Opcional
     TIPO_ENTREGA_CHOICES = [
         ('RT', 'Retiro en Tienda'),
         ('DD', 'Despacho a Domicilio')
@@ -46,6 +47,7 @@ class Pedido(models.Model):
     apellidos = models.CharField(max_length=100)
     email = models.EmailField()
     numero_pedido = models.CharField(max_length=10, unique=True)
+    datos_completados = models.BooleanField(default=False)  # Nuevo campo para indicar si los datos del cliente han sido completados
 
     def __str__(self):
         return f'Pedido {self.numero_pedido}'
@@ -83,3 +85,13 @@ class Transaccion(models.Model):
     get_cliente_nombre.short_description = 'Nombre'
     get_cliente_apellidos.short_description = 'Apellidos'
     get_cliente_email.short_description = 'Correo Electrónico'
+
+class PerfilUsuario(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    rut = models.CharField(max_length=12)
+    nombre = models.CharField(max_length=100)
+    apellidos = models.CharField(max_length=100)
+    email = models.EmailField()
+
+    def __str__(self):
+        return f'Perfil de {self.user.username}'

@@ -146,3 +146,13 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'ferremas@atpoffice.cl'
 EMAIL_HOST_PASSWORD = 'K1t31.21'
 DEFAULT_FROM_EMAIL = 'ferremas@atpoffice.cl'
+
+LOGIN_URL = 'login'  # Nombre de la URL de login
+LOGIN_REDIRECT_URL = 'index'  # URL a la que se redirige después del login
+LOGOUT_REDIRECT_URL = 'index'  # URL a la que se redirige después del logout
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost',
+    'http://127.0.0.1',
+    'http://yourdomain.com',
+]
