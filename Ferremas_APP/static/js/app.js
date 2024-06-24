@@ -31,7 +31,13 @@ function fetchWithCsrf(url, options = {}) {
 }
 
 function agregarAlCarrito(productoId) {
-    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+    const csrfTokenElement = document.querySelector('input[name="csrfmiddlewaretoken"]');
+    const csrfToken = csrfTokenElement ? csrfTokenElement.value : '';
+
+    if (!csrfToken) {
+        console.error('CSRF token not found');
+        return;
+    }
 
     fetch(`/agregar_al_carrito/${productoId}/`, {
         method: "POST",
@@ -48,7 +54,14 @@ function agregarAlCarrito(productoId) {
         return response.json();
     })
     .then(data => {
-        alert(data.mensaje);
+        // Mostrar la alerta de SweetAlert2
+        Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Producto agregado al carrito",
+            showConfirmButton: false,
+            timer: 1500
+        });
         actualizarContadorCarrito(); // Actualizar el contador del carrito
         animarIconoCarrito(); // Añadir la animación al icono del carrito
     })
@@ -155,29 +168,35 @@ function actualizarCantidad(productoId, cantidad) {
   .catch(error => console.error("Error al actualizar la cantidad del producto:", error));
 }
 
-function eliminarProducto(productoId) { 
-  fetch(`/eliminar_del_carrito/${productoId}/`, { 
-      method: "POST", 
-      headers: {
-          "Content-Type": "application/json",
-          "X-CSRFToken": getCookie("csrftoken"),
-      },
-  })
-  .then((response) => {
-      if (!response.ok) {
-          throw new Error('Network response was not ok.');
-      }
-      return response.json();
-  })
-  .then((data) => {
-      alert(data.mensaje);
-      cargarCarrito(); // Recargar el carrito para actualizar la interfaz
-      actualizarContadorCarrito(); // Actualizar el contador del carrito
-  })
-  .catch((error) =>
-      console.error("Error al eliminar el producto del carrito:", error)
-  );
+function eliminarProducto(productoId) {
+    fetch(`/eliminar_del_carrito/${productoId}/`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRFToken": getCookie("csrftoken"),
+        },
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok.');
+        }
+        return response.json();
+    })
+    .then((data) => {
+        Swal.fire({
+            icon: "error",
+            title: "Producto eliminado del carrito",
+            showConfirmButton: false,
+            timer: 1500
+        });
+        cargarCarrito(); // Recargar el carrito para actualizar la interfaz
+        actualizarContadorCarrito(); // Actualizar el contador del carrito
+    })
+    .catch((error) => {
+        console.error("Error al eliminar el producto del carrito:", error);
+    });
 }
+
 
 // Función para actualizar el contador del carrito
 function actualizarContadorCarrito() {
