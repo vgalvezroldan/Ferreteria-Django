@@ -184,6 +184,7 @@ function eliminarProducto(productoId) {
     })
     .then((data) => {
         Swal.fire({
+            position: "top-end",
             icon: "error",
             title: "Producto eliminado del carrito",
             showConfirmButton: false,
