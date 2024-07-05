@@ -1,14 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-class Producto(models.Model):
-    nombre = models.CharField(max_length=100)
-    descripcion = models.TextField()
-    detalleCompleto = models.TextField(default='')
-    especificaciones = models.CharField(max_length=100, null=True, blank=True)
-    lista1 = models.CharField(max_length=100, null=True, blank=True)
-    lista2 = models.CharField(max_length=100, null=True, blank=True)
-    lista3 = models.CharField(max_length=100, null=True, blank=True)
+class Producto(models.Model): # Modelo para los productos
+    nombre = models.CharField(max_length=100)  # Campo para el nombre del producto
+    descripcion = models.TextField() # Campo para la descripción del producto
+    detalleCompleto = models.TextField(default='') # Campo para el detalle completo del producto
+    especificaciones = models.CharField(max_length=100, null=True, blank=True) # Campo para las especificaciones del producto
+    lista1 = models.CharField(max_length=100, null=True, blank=True) 
+    lista2 = models.CharField(max_length=100, null=True, blank=True) 
+    lista3 = models.CharField(max_length=100, null=True, blank=True) 
     lista4 = models.CharField(max_length=100, null=True, blank=True)
     lista5 = models.CharField(max_length=100, null=True, blank=True)
     incluye = models.CharField(max_length=100, null=True, blank=True)
@@ -17,36 +17,36 @@ class Producto(models.Model):
     lista8 = models.CharField(max_length=100, null=True, blank=True)
     lista9 = models.CharField(max_length=100, null=True, blank=True)
     lista10 = models.CharField(max_length=100, null=True, blank=True)
-    precioOferta = models.DecimalField(max_digits=8, decimal_places=2 , null=True, blank=True)
-    precio = models.DecimalField(max_digits=8, decimal_places=2)
-    stock = models.IntegerField()
-    imagen = models.ImageField(upload_to='productos', null=True, blank=True)
+    precioOferta = models.DecimalField(max_digits=8, decimal_places=2 , null=True, blank=True) # Campo para el precio del producto
+    precio = models.DecimalField(max_digits=8, decimal_places=2) # Campo para el precio del producto
+    stock = models.IntegerField() # Campo para el stock del producto
+    imagen = models.ImageField(upload_to='productos', null=True, blank=True) # Campo para la imagen del producto
     
 
     def __str__(self):
         return self.nombre
     
-class Carrito(models.Model):
-    sesion_id = models.CharField(max_length=100)
+class Carrito(models.Model): # Modelo para el carrito de compras
+    sesion_id = models.CharField(max_length=100) # Campo para la sesión del carrito
 
-class CarritoProducto(models.Model):
-    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE)
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    cantidad = models.IntegerField()
+class CarritoProducto(models.Model): # Modelo para los productos del carrito
+    carrito = models.ForeignKey(Carrito, on_delete=models.CASCADE) # Relación con el carrito
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE) # Relación con el producto
+    cantidad = models.IntegerField() # Campo para la cantidad de productos
 
-class Pedido(models.Model):
+class Pedido(models.Model): # Modelo para los pedidos
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)  # Opcional
-    TIPO_ENTREGA_CHOICES = [
-        ('RT', 'Retiro en Tienda'),
+    TIPO_ENTREGA_CHOICES = [ # Opciones para el tipo de entrega
+        ('RT', 'Retiro en Tienda'), 
         ('DD', 'Despacho a Domicilio')
     ]
-    
-    tipo_entrega = models.CharField(max_length=2, choices=TIPO_ENTREGA_CHOICES, default='RT')
-    rut = models.CharField(max_length=12)
-    nombre = models.CharField(max_length=100)
-    apellidos = models.CharField(max_length=100)
-    email = models.EmailField()
-    numero_pedido = models.CharField(max_length=10, unique=True)
+     
+    tipo_entrega = models.CharField(max_length=2, choices=TIPO_ENTREGA_CHOICES, default='RT') # Campo para el tipo de entrega
+    rut = models.CharField(max_length=12) # Campo para el RUT del cliente
+    nombre = models.CharField(max_length=100) # Campo para el nombre del cliente
+    apellidos = models.CharField(max_length=100) # Campo para los apellidos del cliente
+    email = models.EmailField() # Campo para el correo electrónico del cliente
+    numero_pedido = models.CharField(max_length=10, unique=True) # Campo para el número de pedido
     datos_completados = models.BooleanField(default=False)  # Nuevo campo para indicar si los datos del cliente han sido completados
 
     def __str__(self):
@@ -58,17 +58,17 @@ class Pedido(models.Model):
     def get_email(self):
         return self.email
     
-class Transaccion(models.Model):
-    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE)
-    token = models.CharField(max_length=100)
-    buy_order = models.CharField(max_length=100)
-    session_id = models.CharField(max_length=100)
-    amount = models.DecimalField(max_digits=10, decimal_places=2)
-    status = models.CharField(max_length=50)
-    authorization_code = models.CharField(max_length=50, null=True, blank=True)
-    payment_type_code = models.CharField(max_length=50, null=True, blank=True)
-    response_code = models.CharField(max_length=50, null=True, blank=True)
-    transaction_date = models.DateTimeField(auto_now_add=True)
+class Transaccion(models.Model): # Modelo para las transacciones
+    pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE) # Relación con el pedido
+    token = models.CharField(max_length=100) # Campo para el token de la transacción
+    buy_order = models.CharField(max_length=100) # Campo para el número de orden de la transacción
+    session_id = models.CharField(max_length=100) # Campo para la sesión de la transacción
+    amount = models.DecimalField(max_digits=10, decimal_places=2) # Campo para el monto de la transacción
+    status = models.CharField(max_length=50) # Campo para el estado de la transacción
+    authorization_code = models.CharField(max_length=50, null=True, blank=True) # Campo para el código de autorización
+    payment_type_code = models.CharField(max_length=50, null=True, blank=True) # Campo para el código de tipo de pago
+    response_code = models.CharField(max_length=50, null=True, blank=True) # Campo para el código de respuesta
+    transaction_date = models.DateTimeField(auto_now_add=True) # Campo para la fecha de la transacción
 
     def __str__(self):
         return f'Transaccion {self.token} - {self.status}'
@@ -86,12 +86,12 @@ class Transaccion(models.Model):
     get_cliente_apellidos.short_description = 'Apellidos'
     get_cliente_email.short_description = 'Correo Electrónico'
 
-class PerfilUsuario(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    rut = models.CharField(max_length=12)
-    nombre = models.CharField(max_length=100)
-    apellidos = models.CharField(max_length=100)
-    email = models.EmailField()
+class PerfilUsuario(models.Model): # Modelo para el perfil de usuario
+    user = models.OneToOneField(User, on_delete=models.CASCADE) # Relación con el usuario
+    rut = models.CharField(max_length=12) # Campo para el RUT del cliente 
+    nombre = models.CharField(max_length=100) # Campo para el nombre del cliente
+    apellidos = models.CharField(max_length=100) # Campo para los apellidos del cliente
+    email = models.EmailField() # Campo para el correo electrónico del cliente
 
     def __str__(self):
         return f'Perfil de {self.user.username}'

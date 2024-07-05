@@ -11,10 +11,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-from transbank.webpay.webpay_plus.transaction import Transaction, WebpayOptions
 from transbank.common.integration_commerce_codes import IntegrationCommerceCodes
 from transbank.common.integration_api_keys import IntegrationApiKeys
 from transbank.common.integration_type import IntegrationType
+from decouple import config
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -35,7 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'Ferremas_APP',
+    'Ferremas_APP', # Aplicación Ferremas_APP <---
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -53,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'Ferremas_APP.middleware.CustomCSRFMiddleware', # Middleware personalizado <---
 ]
 
 ROOT_URLCONF = 'Ferremas.urls'
@@ -124,7 +126,7 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-MEDIA_URL = '/media/'
+MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR /'media/'
 
 
@@ -138,14 +140,19 @@ WEBPAY_PLUS_COMMERCE_CODE = IntegrationCommerceCodes.WEBPAY_PLUS
 WEBPAY_PLUS_API_KEY = IntegrationApiKeys.WEBPAY
 WEBPAY_PLUS_INTEGRATION_TYPE = IntegrationType.TEST
 
-# Configuración de correo electrónico para Office 365
+# Configuración de correo electrónico para Office 365 ---- Cambiar en archivo .env
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.office365.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'ferremas@atpoffice.cl'
-EMAIL_HOST_PASSWORD = 'K1t31.21'
-DEFAULT_FROM_EMAIL = 'ferremas@atpoffice.cl'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')
+
+# Configuración API BancoCentral ---- Cambiar en archivo .env
+
+BCCH_API_USER = config('BCCH_API_USER')
+BCCH_API_PASSWORD = config('BCCH_API_PASSWORD')
 
 LOGIN_URL = 'login'  # Nombre de la URL de login
 LOGIN_REDIRECT_URL = 'index'  # URL a la que se redirige después del login
@@ -154,5 +161,4 @@ LOGOUT_REDIRECT_URL = 'index'  # URL a la que se redirige después del logout
 CSRF_TRUSTED_ORIGINS = [
     'http://localhost',
     'http://127.0.0.1',
-    'http://yourdomain.com',
 ]

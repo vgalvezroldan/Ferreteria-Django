@@ -63,7 +63,6 @@ function agregarAlCarrito(productoId) {
             timer: 1500
         });
         actualizarContadorCarrito(); // Actualizar el contador del carrito
-        animarIconoCarrito(); // Añadir la animación al icono del carrito
     })
     .catch(error => {
         console.error("Error al agregar el producto al carrito:", error);
@@ -207,7 +206,6 @@ function actualizarContadorCarrito() {
       const cartCount = document.getElementById('cart-count');
       let totalItems = data.productos.reduce((acc, producto) => acc + producto.cantidad, 0); // Sumar las cantidades de todos los productos
       cartCount.textContent = totalItems;
-      animarIconoCarrito(); // Añadir la animación al icono del carrito
   })
   .catch(error => console.error("Error al actualizar el contador del carrito:", error));
 }
@@ -223,3 +221,64 @@ document.addEventListener("DOMContentLoaded", function () {
   });
   actualizarContadorCarrito(); // Actualizar el contador del carrito al cargar la página
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('registroForm');
+
+    form.addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(form);
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': form.querySelector('[name=csrfmiddlewaretoken]').value
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Response data:', data);  // Agregar para depuración
+            if (data.success) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'success',
+                    title: 'Usuario registrado con éxito',
+                    showConfirmButton: false,
+                    timer: 3000 // Mostrar la alerta por 3 segundos
+                });
+                setTimeout(() => {
+                    window.location.href = '/formulario_datos'; // Redirigir a la página deseada
+                }, 3000); // Esperar 3 segundos antes de redirigir
+            } else {
+                let errorMessage = '';
+                for (let field in data.errors) {
+                    data.errors[field].forEach(error => {
+                        errorMessage += `${error}<br>`;
+                    });
+                }
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: 'Errores en el formulario',
+                    html: errorMessage,
+                    showConfirmButton: false,
+                    timer: 5000
+                });
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: 'Error en el servidor',
+                text: 'Hubo un problema con la solicitud. Por favor, inténtalo de nuevo más tarde.',
+                showConfirmButton: false,
+                timer: 5000
+            });
+        });
+    });
+});
+

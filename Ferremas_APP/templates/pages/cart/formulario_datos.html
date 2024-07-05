@@ -19,7 +19,7 @@
                             <label class="form-check-label" for="tipo_entrega_rt">Retiro en Tienda</label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="radio" name="tipo_entrega" id="tipo_entrega_dd" value="DD" >
+                            <input class="form-check-input" type="radio" name="tipo_entrega" id="tipo_entrega_dd" value="DD" disabled>
                             <label class="form-check-label" for="tipo_entrega_dd">Despacho a Domicilio (Próximamente)</label>
                         </div>
                     </div>
@@ -50,36 +50,42 @@
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const rutInput = document.getElementById('id_rut');
-    
-    rutInput.addEventListener('input', formatRUT);
-    
-    function formatRUT() {
-        let value = rutInput.value.replace(/\./g, '').replace(/-/g, '');
-        if (value.length > 1) {
-            value = value.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + value.slice(-1);
+    document.addEventListener('DOMContentLoaded', function () {
+        const rutInput = document.getElementById('id_rut');
+        
+        rutInput.addEventListener('input', formatRUT);
+        
+        function formatRUT() {
+            let value = rutInput.value.replace(/\./g, '').replace(/-/g, '');
+            if (value.length > 1) {
+                value = value.slice(0, -1).replace(/\B(?=(\d{3})+(?!\d))/g, '.') + '-' + value.slice(-1);
+            }
+            rutInput.value = value;
         }
-        rutInput.value = value;
-    }
-
-    // Función para verificar si el carrito tiene productos
-    function verificarCarrito() {
-        fetch("/ver_carrito/")
-            .then(response => response.json())
-            .then(data => {
-                const irAPagarBtn = document.getElementById('irAPagarBtn');
-                if (data.productos.length === 0) {
-                    irAPagarBtn.disabled = true;
-                } else {
-                    irAPagarBtn.disabled = false;
-                }
-            })
-            .catch(error => console.error("Error al verificar el carrito:", error));
-    }
-
-    verificarCarrito(); // Llamar a la función al cargar la página
-});
-</script>
+    
+        function verificarCarrito() {
+            fetch("/ver_carrito/")
+                .then(response => response.json())
+                .then(data => {
+                    const irCarritoBtn = document.querySelector('button[type="submit"]');
+                    if (data.productos.length === 0) {
+                        irCarritoBtn.disabled = true;
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Carrito vacío',
+                            text: 'No hay productos en el carrito. Por favor, agrega productos antes de proceder.',
+                            confirmButtonText: 'Aceptar'
+                        });
+                    } else {
+                        irCarritoBtn.disabled = false;
+                    }
+                })
+                .catch(error => console.error("Error al verificar el carrito:", error));
+        }
+    
+        verificarCarrito(); // Llamar a la función al cargar la página
+    });
+    </script>
+    
 
 {% endblock %}

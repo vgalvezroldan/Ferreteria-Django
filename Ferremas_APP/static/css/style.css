@@ -87,3 +87,14 @@ footer {
     background-color: rgba(var(--bs-success-rgb), var(--bs-bg-opacity)) !important;
 }
 
+@media (max-width: 767.98px) {
+  .boton-usuario, .boton-carrito {
+      width: 4rem;
+      height: 4rem;
+  }
+
+  .navbar-nav .nav-link {
+      font-size: 0.9rem;
+  }
+}
+

@@ -10,7 +10,7 @@
         </div>
         <div class="row justify-content-center">
             <div class="col-md-10">
-                <form method="post">
+                <form method="post" id="registroForm" action="{% url 'registro' %}">
                     {% csrf_token %}
                     <div class="mb-3 fs-3">
                         <label for="id_username" class="form-label">Nombre de Usuario</label>
@@ -66,6 +66,7 @@
     </div>
 </div>
 
+<!-- SCRIPT PARA FORMATEAR RUT -->
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const rutInput = document.getElementById('id_rut');
@@ -81,4 +82,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
+
 {% endblock %}
