@@ -12,7 +12,7 @@
 <p>Agrega tus credenciales de correo electrónico al archivo '.env'</p>
 <p>DEFAULT_FROM_EMAIL=tu_correo</p>
 <p>EMAIL_HOST_USER=tu_correo</p>
-<p>EMAIL_HOST_PASSWORD=</p>
+<p>EMAIL_HOST_PASSWORD=tu_contraseña</p>
 
 <h3>Editar Archivo settings.py</h3>
 <p>EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'</p>
