@@ -1,6 +1,6 @@
 <h1>Configuración en Archivo .env</h1>
 
-<h2>Edita el Archivo '.env' para Conversión de Monedas</h2>
+<h2>Edita el Archivo '.env' para Conversión de Monedas mediante API Banco Central de Chile</h2>
 <p>Agrega tus credenciales de la API al archivo '.env' en la raíz de tu proyecto.</p>
 <p>Reemplaza 'tu_correo' y 'tu_contraseña' con tus credenciales reales.</p>
 <p>BBCH_API_USER=tu_correo</p>
